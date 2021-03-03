@@ -1,0 +1,61 @@
+@import '../../styles/mixins';
+
+.home-header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  max-width: 1280px;
+  margin-right: auto;
+  margin-left: auto;
+  background: 0 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  height: 64px;
+  line-height: 64px;
+  padding: 0 40px;
+  overflow: hidden;
+
+  &-logo {
+    float: left;
+    color: #103151;
+    font-size: 18px;
+    font-weight: 500;
+
+    img {
+      position: relative;
+      top: -1.5px;
+      height: 32px;
+      margin-right: 16px;
+    }
+  }
+
+  &-nav {
+    font-size: 14px;
+    float: right;
+
+    &-btn {
+      border-radius: 30px;
+      border-width: 2px;
+      font-weight: 500;
+    }
+
+    &-identifier{
+      background: @blue;
+      color: white;
+      border-color: @blue;
+    }
+
+    &-inscrire{
+      background: white;
+      color:@blue;
+      border-color: @blue;
+    }
+
+     &-inscrire:hover, &-identifier:hover{
+      background: white;
+      color:@lightorange;
+      border-color: @lightorange;
+     }
+  }
+}

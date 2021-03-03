@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.5.0",
     "@babel/core": "^7.4.3",
     "@svgr/webpack": "2.4.1",
+    "antd": "^4.13.0",
     "axios": "^0.18.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
@@ -71,7 +73,7 @@
     "workbox-webpack-plugin": "3.6.3"
   },
   "scripts": {
-    "start": "cross-env PORT=3100 node scripts/start.js",
+    "start": "cross-env PORT=4100 node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },
