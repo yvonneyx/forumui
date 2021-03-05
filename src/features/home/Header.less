@@ -40,22 +40,40 @@
       font-weight: 500;
     }
 
-    &-identifier{
+    &-identifier {
       background: @blue;
       color: white;
       border-color: @blue;
     }
 
-    &-inscrire{
+    &-inscrire {
       background: white;
-      color:@blue;
+      color: @blue;
       border-color: @blue;
     }
 
-     &-inscrire:hover, &-identifier:hover{
+    &-inscrire:hover,
+    &-identifier:hover {
       background: white;
-      color:@lightorange;
+      color: @lightorange;
       border-color: @lightorange;
-     }
+    }
+
+    .ant-divider-vertical {
+      margin: 0 4px;
+    }
+
+    .anticon-message,
+    .anticon-edit {
+      color: @darkblue;
+    }
+  }
+
+  &-menu {
+    &-switch {
+      position: absolute;
+      right: 12px;
+      top: 43px;
+    }
   }
 }

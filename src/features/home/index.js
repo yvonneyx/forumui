@@ -6,3 +6,4 @@ export { default as ArticlesPopulaires } from './ArticlesPopulaires';
 export { default as ArticlesListTab } from './ArticlesListTab';
 export { default as ArticlesListContent } from './ArticlesListContent';
 export { default as Header } from './Header';
+export { default as UserCard } from './UserCard';

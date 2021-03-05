@@ -7,32 +7,39 @@
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
 
-img{
-  width: 400px;
-  transform: translateY(55px);
-}
+  img {
+    width: 400px;
+    transform: translateY(55px);
+  }
 
-&-btn{
-  background: @blue;
-  border-radius:30px;
-  border: none; 
-  font-weight: 500;
-  width: 120px;
-}
+  &-btn {
+    background: @blue;
+    border-radius: 30px;
+    border-width: 2px;
+    border-color: @blue;
+    font-weight: 500;
+    width: 120px;
+  }
 
-  &-inscrire{
+  &-btn:hover {
+    background: white;
+    color: @lightorange;
+    border-color: @lightorange;
+  }
+
+  &-inscrire {
     color: @darkblue;
-        float: right;
+    float: right;
     // transform: translateY(-50px);
   }
 
-   &-inscrire:hover{
+  &-inscrire:hover {
     text-decoration: underline;
     cursor: pointer;
     color: @darkblue;
   }
 
-  .ant-checkbox-checked{
+  .ant-checkbox-checked {
     background: @blue;
   }
 }

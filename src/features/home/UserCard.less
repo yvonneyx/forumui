@@ -1,0 +1,44 @@
+@import '../../styles/mixins';
+
+.home-user-card {
+  margin-left: 5px;
+  font-size: 12px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &-avatar {
+    float: left;
+  }
+
+  &-text {
+    float: right;
+    margin: 16px 0 16px 5px;
+    line-height: 16px;
+  }
+
+  &-username {
+    font-weight: 500;
+    color: @darkblue;
+    height: anto;
+  }
+
+  &-karma {
+    color: @gray;
+    height: anto;
+  }
+
+  &-icon {
+    float: right;
+    margin-left: 8px;
+
+    svg {
+      font-size: 10px;
+    }
+  }
+
+  .ant-badge-dot {
+    transform: translateY(18px);
+  }
+}
