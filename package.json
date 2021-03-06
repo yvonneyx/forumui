@@ -2,6 +2,7 @@
   "name": "forumui",
   "version": "1.0.0",
   "private": true,
+  "homepage": "http://yvonneyx.github.io/forumui",
   "dependencies": {
     "@ant-design/icons": "^4.5.0",
     "@babel/core": "^7.4.3",
@@ -78,6 +79,8 @@
   "scripts": {
     "start": "cross-env PORT=4100 node scripts/start.js",
     "build": "node scripts/build.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "node scripts/test.js"
   },
   "browserslist": [
@@ -126,5 +129,8 @@
       "jsx",
       "node"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^3.1.0"
   }
 }
