@@ -1,0 +1,37 @@
+@import '../../styles/mixins';
+
+.home-signup {
+  width: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+
+  .steps-content{
+    height: 360px;
+    margin-top: 40px;
+  }
+
+  .steps-action{
+    float: right;
+  }
+
+  .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-icon,
+  .ant-steps-item-finish
+    > .ant-steps-item-container
+    > .ant-steps-item-content
+    > .ant-steps-item-title::after,
+  .ant-btn-primary {
+    background-color: @blue;
+  }
+
+  .ant-steps-item-process .ant-steps-item-icon,
+  .ant-steps-item-finish .ant-steps-item-icon,
+  .ant-btn-primary {
+    border-color: @blue;
+  }
+
+  .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+    color: @blue;
+  }
+}

@@ -1,0 +1,26 @@
+@import '../../styles/mixins';
+
+.home-signup-success {
+  height: 380px;
+
+  img{
+    width: 320px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  }
+
+  &-content{
+    transform: translateY(120px);
+  }
+
+  a{
+    color: @blue;
+  }
+
+  a:hover{
+    text-decoration: underline;
+  }
+
+}

@@ -81,7 +81,7 @@ export default function Login() {
                 S'identifier
               </Button>
             </Form.Item>
-            <Link className="home-login-inscrire" to="/register">
+            <Link className="home-login-inscrire" to="/signup">
               Vous n'avez pas de compte? S'inscrire
             </Link>
           </Form>

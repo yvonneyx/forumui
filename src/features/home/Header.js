@@ -72,7 +72,7 @@ export default function Header() {
           <Button className="home-header-nav-btn home-header-nav-identifier" href="/login">
             S'identifier
           </Button>
-          <Button className="home-header-nav-btn home-header-nav-inscrire" href="/register">
+          <Button className="home-header-nav-btn home-header-nav-inscrire" href="/signup">
             S'inscrire
           </Button>
         </Space>
