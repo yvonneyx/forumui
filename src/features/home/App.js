@@ -1,6 +1,7 @@
 import React from 'react';
-import "antd/dist/antd.css";
 import { Header } from './';
+import 'react-chat-elements/dist/main.css';
+import "antd/dist/antd.css";
 
 export default function App({ children }) {
 

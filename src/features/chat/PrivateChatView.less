@@ -1,0 +1,25 @@
+@import '../../styles/mixins';
+
+.chat-private-chat-view {
+  
+  .chat-body{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -48%, 0);
+    
+    width: 1000px;
+    height: 600px;
+    overflow: hidden;
+    border: 1px solid @borded;
+    border-radius: 5px;
+  }
+
+  .chat-list-column{
+    // width: 300px;
+    height: 100%;
+    border-right: 1px solid @borded;
+    overflow: auto;
+  }
+
+}
