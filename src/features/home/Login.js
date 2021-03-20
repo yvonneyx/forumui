@@ -47,12 +47,12 @@ export default function Login() {
             onFinishFailed={onFinishFailed}
           >
             <Form.Item
-              label="Nom d'utilisateur"
-              name="username"
+              label="E-mail"
+              name="email"
               rules={[
                 {
                   required: true,
-                  message: 'Please input your username!',
+                  message: 'Please input your email!',
                 },
               ]}
             >

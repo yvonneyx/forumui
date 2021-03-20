@@ -7,6 +7,7 @@ import {
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { useFetchUserList } from './redux/hooks';
 
 const formItemLayout = {
   labelCol: {
@@ -40,12 +41,19 @@ const tailFormItemLayout = {
 };
 
 function RegisterForm(props, ref) {
+  const { userList, fetchUserList } = useFetchUserList();
+  const userEmailList = (userList || []).map(user => { return user.eMail });
+
   const [form] = Form.useForm();
   const { values } = props;
 
   const onFinish = (values) => {
     return values;
   };
+
+  useEffect(() => {
+    fetchUserList();
+  }, [fetchUserList]);
 
   useImperativeHandle(ref, () => ({
     validateFields: () => {
@@ -78,6 +86,14 @@ function RegisterForm(props, ref) {
               required: true,
               message: 'Veuillez saisir votre E-mail!',
             },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (userEmailList.includes(getFieldValue('email'))) {
+                  return Promise.reject('Cette adresse e-mail a déjà été enregistrée, veuillez la modifier.')
+                }
+                return Promise.resolve()
+              }
+            })
           ]}
         >
           <Input />

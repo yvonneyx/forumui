@@ -1,12 +1,20 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 // import PropTypes from 'prop-types';
 // import {} from './redux/hooks';
 import { Card, Steps, Button, message, notification } from 'antd';
 import { RegisterForm, ThemeSelection, SignupSuccess } from './';
+import { useSignUp } from './redux/hooks';
+import _ from 'lodash';
 
 const { Step } = Steps;
 
 export default function Signup() {
+  const {
+    signUp,
+    signUpPending,
+    signUpError,
+  } = useSignUp();
+
   const [current, setCurrent] = useState(0);
   const [values, setValues] = useState({});
   const registerRef = useRef(null);
@@ -49,9 +57,22 @@ export default function Signup() {
       });
     } else {
       if (current === 1) {
-        console.log(values, themeRef.current && themeRef.current.selectedTags);
+        signUp({
+          nickname: values.nickname,
+          password: values.password,
+          email: values.email,
+          categories: themeRef.current && themeRef.current.selectedTagsInd
+        });
       }
-      next();
+      if (!signUpPending && _.isEmpty(signUpError)) {
+        next();
+      } else {
+        notification.error({
+          message: 'Error',
+          description:
+            'Votre inscription a échoué. Veuillez réessayer plus tard..'
+        })
+      }
     }
   };
 

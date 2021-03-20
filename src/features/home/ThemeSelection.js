@@ -10,14 +10,17 @@ const tagsData = ['Conseils', 'Animaux', 'Art', 'Bricolage', 'Électronique', 'D
 
 function ThemeSelection(props, ref) {
   const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedTagsInd, setSelectedTagsInd] = useState([]);
 
   const handleChange = (tag, checked) => {
     const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
-    setSelectedTags(nextSelectedTags);
+    const nextSelectedTagsInd = nextSelectedTags.map(tag => { return tagsData.indexOf(tag) + 1 });
+    setSelectedTags(nextSelectedTags);    
+    setSelectedTagsInd(nextSelectedTagsInd);
   }
 
   useImperativeHandle(ref, () => ({
-    selectedTags,
+    selectedTagsInd,
   }));
 
   return (
