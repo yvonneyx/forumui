@@ -1,19 +1,19 @@
 self.__precacheManifest = [
   {
-    "revision": "64368ff7ef8473898d0f",
-    "url": "/forumui/static/css/main.6c74d68d.chunk.css"
+    "revision": "19f2566ed1b5c30ed4e8",
+    "url": "/forumui/static/css/main.d78d5aa5.chunk.css"
   },
   {
-    "revision": "64368ff7ef8473898d0f",
-    "url": "/forumui/static/js/main.64368ff7.chunk.js"
+    "revision": "19f2566ed1b5c30ed4e8",
+    "url": "/forumui/static/js/main.19f2566e.chunk.js"
   },
   {
-    "revision": "996c1dbd0ec60fce20ad",
-    "url": "/forumui/static/css/1.4c64b038.chunk.css"
+    "revision": "c7cd2e2e2e5d066d76d9",
+    "url": "/forumui/static/css/1.f8fe2b6b.chunk.css"
   },
   {
-    "revision": "996c1dbd0ec60fce20ad",
-    "url": "/forumui/static/js/1.996c1dbd.chunk.js"
+    "revision": "c7cd2e2e2e5d066d76d9",
+    "url": "/forumui/static/js/1.c7cd2e2e.chunk.js"
   },
   {
     "revision": "1b9d2b555924b85da6a0",
@@ -36,7 +36,7 @@ self.__precacheManifest = [
     "url": "/forumui/static/media/signup.0c357fb1.svg"
   },
   {
-    "revision": "6394b073f0c1074b7959719ca197c4c2",
+    "revision": "107432cc509b24470789bcd2ab0c2c8f",
     "url": "/forumui/index.html"
   }
 ];
