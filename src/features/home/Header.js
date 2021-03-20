@@ -13,14 +13,20 @@ import {
   EditFilled,
 } from '@ant-design/icons';
 import { UserCard } from './';
+import { useCookies } from "react-cookie";
+import _ from 'lodash';
 
 export default function Header() {
-  let loggedIn = true;
   const [status, setStatus] = useState(true);
+  const [ cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   const onChange = checked => {
     setStatus(checked);
   };
+
+  function logout(){
+    removeCookie('user');
+  }
 
   const menu = (
     <Menu className="home-header-menu">
@@ -31,8 +37,8 @@ export default function Header() {
             status ? (
               <CheckCircleFilled style={{ color: '#52c41a' }} />
             ) : (
-              <StopFilled style={{ color: '#f5222d' }} />
-            )
+                <StopFilled style={{ color: '#f5222d' }} />
+              )
           }
         >
           {status ? 'Disponible' : 'Occupé'}
@@ -53,7 +59,7 @@ export default function Header() {
         </Menu.Item>
       </Menu.ItemGroup>
       <Menu.Divider />
-      <Menu.Item key="logout" icon={<LogoutOutlined />}>
+      <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={logout}>
         Se déconnecter
       </Menu.Item>
     </Menu>
@@ -67,7 +73,7 @@ export default function Header() {
         </Link>
         Forum Brainstorming
       </div>
-      {!loggedIn ? (
+      {_.isEmpty(cookies) ? (
         <Space className="home-header-nav">
           <Button className="home-header-nav-btn home-header-nav-identifier" href="/login">
             S'identifier
@@ -77,17 +83,17 @@ export default function Header() {
           </Button>
         </Space>
       ) : (
-        <Space className="home-header-nav" size="1px">
-          <Button icon={<MessageFilled />} type="text" />
-          <Button icon={<EditFilled />} type="text" />
-          <Divider type="vertical" />
-          <Dropdown overlay={menu} trigger={['click']}>
-            <div>
-              <UserCard status={status} />
-            </div>
-          </Dropdown>
-        </Space>
-      )}
+          <Space className="home-header-nav" size="1px">
+            <Button icon={<MessageFilled />} type="text" />
+            <Button icon={<EditFilled />} type="text" />
+            <Divider type="vertical" />
+            <Dropdown overlay={menu} trigger={['click']}>
+              <div>
+                <UserCard status={status} />
+              </div>
+            </Dropdown>
+          </Space>
+        )}
     </div>
   );
 }
