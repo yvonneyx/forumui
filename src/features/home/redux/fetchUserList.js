@@ -7,7 +7,7 @@ import {
   HOME_FETCH_USER_LIST_FAILURE,
   HOME_FETCH_USER_LIST_DISMISS_ERROR,
 } from './constants';
-import globalConfig from '../../../common/globalConfig';
+import { globalConfig, config } from '../../../common/globalConfig';
 
 export function fetchUserList(args = {}) {
   return (dispatch) => { // optionally you can have getState as the second argument
@@ -16,17 +16,8 @@ export function fetchUserList(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Credentials': 'true',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE, PUT, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
-        }
-      };
-
       const doRequest = axios.get(`${globalConfig.svcId}/User/findAll`, config);
+
       doRequest.then(
         (res) => {
           dispatch({

@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 // import PropTypes from 'prop-types';
-import { Form, Input, Button, Checkbox, Card, Row, Col } from 'antd';
+import { Form, Input, Button, Checkbox, Card, Row, Col,notification } from 'antd';
 import { Link } from 'react-router-dom';
+import { useLogin } from './redux/hooks';
+import _ from 'lodash';
 
 const layout = {
   labelCol: {
@@ -18,11 +20,22 @@ const tailLayout = {
   },
 };
 
-export default function Login() {
+export default function Login(props) {
+  const { loggedId, login, loginPending, loginError } = useLogin();
+
   const onFinish = values => {
-    console.log('Received values of form:', values);
-    // setToken(values.username);
-    // props.history.push("/admin/dashboard");
+    login({ ...values });
+    setTimeout(() => {
+      if (!_.isEmpty(loggedId)) {
+        props.history.push('/accueil');
+      } else {
+        notification.error({
+          message: 'Échec de la connexion',
+          description:
+            'Votre adresse e-mail ou votre mot de passe est incorrect.'
+        })
+      }
+    })
   };
 
   const onFinishFailed = errorInfo => {
