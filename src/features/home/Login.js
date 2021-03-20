@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 // import PropTypes from 'prop-types';
-import { Form, Input, Button, Checkbox, Card, Row, Col,notification } from 'antd';
+import { Form, Input, Button, Checkbox, Card, Row, Col, notification } from 'antd';
 import { Link } from 'react-router-dom';
 import { useLogin } from './redux/hooks';
+import { useCookies } from "react-cookie";
 import _ from 'lodash';
 
 const layout = {
@@ -21,21 +22,25 @@ const tailLayout = {
 };
 
 export default function Login(props) {
-  const { loggedId, login, loginPending, loginError } = useLogin();
+  const { login } = useLogin();
+  const [ cookies, setCookie] = useCookies(["user"]);
 
   const onFinish = values => {
-    login({ ...values });
-    setTimeout(() => {
-      if (!_.isEmpty(loggedId)) {
-        props.history.push('/accueil');
-      } else {
-        notification.error({
-          message: 'Échec de la connexion',
-          description:
-            'Votre adresse e-mail ou votre mot de passe est incorrect.'
-        })
+    login({ ...values }).then(
+      (res) => {
+        if (!_.isEmpty(res.data.ext)) {
+          // bake_cookie(cookie_key, res.data.ext.id);
+          setCookie("user", res.data.ext.id, {path: "/"});
+          props.history.push('/accueil');
+        } else {
+          notification.error({
+            message: 'Échec de la connexion',
+            description:
+              'Votre adresse e-mail ou votre mot de passe est incorrect.'
+          })
+        }
       }
-    })
+    )
   };
 
   const onFinishFailed = errorInfo => {
