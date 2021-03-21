@@ -7,7 +7,7 @@ import {
   HOME_SIGN_UP_FAILURE,
   HOME_SIGN_UP_DISMISS_ERROR,
 } from './constants';
-import {globalConfig, config} from '../../../common/globalConfig';
+import { serverUrl, config} from '../../../common/globalConfig';
 
 export function signUp(args = {}) {
   return (dispatch) => { // optionally you can have getState as the second argument
@@ -17,7 +17,7 @@ export function signUp(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const requestJSON = JSON.stringify({ ...args });
-      const doRequest = axios.post(`${globalConfig.svcId}/User/add`,
+      const doRequest = axios.post(`${serverUrl}/User/add`,
         requestJSON, config);
       doRequest.then(
         (res) => {

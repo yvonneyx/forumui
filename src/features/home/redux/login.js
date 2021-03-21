@@ -7,7 +7,7 @@ import {
   HOME_LOGIN_FAILURE,
   HOME_LOGIN_DISMISS_ERROR,
 } from './constants';
-import {globalConfig, config} from '../../../common/globalConfig';
+import { serverUrl, config} from '../../../common/globalConfig';
 
 export function login(args = {}) {
   return (dispatch) => { // optionally you can have getState as the second argument
@@ -17,7 +17,7 @@ export function login(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const requestJSON = JSON.stringify({ ...args });
-      const doRequest = axios.post(`${globalConfig.svcId}/User/login`, requestJSON, config)
+      const doRequest = axios.post(`${serverUrl}/User/login`, requestJSON, config)
       doRequest.then(
         (res) => {
           dispatch({

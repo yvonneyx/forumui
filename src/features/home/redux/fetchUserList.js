@@ -7,7 +7,7 @@ import {
   HOME_FETCH_USER_LIST_FAILURE,
   HOME_FETCH_USER_LIST_DISMISS_ERROR,
 } from './constants';
-import { globalConfig, config } from '../../../common/globalConfig';
+import { serverUrl, config } from '../../../common/globalConfig';
 
 export function fetchUserList(args = {}) {
   return (dispatch) => { // optionally you can have getState as the second argument
@@ -16,7 +16,7 @@ export function fetchUserList(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = axios.get(`${globalConfig.svcId}/User/findAll`, config);
+      const doRequest = axios.get(`${serverUrl}/User/findAll`, config);
 
       doRequest.then(
         (res) => {
