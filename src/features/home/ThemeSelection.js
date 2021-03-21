@@ -15,7 +15,7 @@ function ThemeSelection(props, ref) {
   const handleChange = (tag, checked) => {
     const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
     const nextSelectedTagsInd = nextSelectedTags.map(tag => { return tagsData.indexOf(tag) + 1 });
-    setSelectedTags(nextSelectedTags);    
+    setSelectedTags(nextSelectedTags);
     setSelectedTagsInd(nextSelectedTagsInd);
   }
 
@@ -28,7 +28,7 @@ function ThemeSelection(props, ref) {
       <h2>Trouvez des thèmes qui vous intéressent.</h2>
       <h4>Le brainstorming du forum est rempli de thèmes basées sur les intérêts, offrant quelque chose pour tout le monde.
 Forum brainstroming fonctionne mieux lorsque vous avez rejoint au moins 3 thèmes.</h4>
-      <div className="home-theme-selection-themes"><h3 style={{ marginRight: 8 }}>Thèmes:</h3>
+      <div className="home-theme-selection-themes"><h3>Thèmes:</h3>
         {tagsData.map(tag => (
           <CheckableTag
             className="home-theme-selection-theme"

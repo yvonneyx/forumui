@@ -1,5 +1,5 @@
 export const globalConfig = {
-  svcId: 'http://192.168.1.76:8089',
+  serverUrl: 'http://192.168.1.76:8089',
 };
 
 export  const config = {
