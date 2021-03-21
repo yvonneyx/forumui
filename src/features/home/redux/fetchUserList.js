@@ -16,7 +16,7 @@ export function fetchUserList(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = axios.get(`${globalConfig.serverUrl}/User/findAll`, config);
+      const doRequest = axios.get(`${globalConfig.svcId}/User/findAll`, config);
 
       doRequest.then(
         (res) => {

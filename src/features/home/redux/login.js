@@ -17,7 +17,7 @@ export function login(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const requestJSON = JSON.stringify({ ...args });
-      const doRequest = axios.post(`${globalConfig.serverUrl}/User/login`, requestJSON, config)
+      const doRequest = axios.post(`${globalConfig.svcId}/User/login`, requestJSON, config)
       doRequest.then(
         (res) => {
           dispatch({

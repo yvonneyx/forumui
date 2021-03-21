@@ -17,7 +17,7 @@ export function signUp(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const requestJSON = JSON.stringify({ ...args });
-      const doRequest = axios.post(`${globalConfig.serverUrl}/User/add`,
+      const doRequest = axios.post(`${globalConfig.svcId}/User/add`,
         requestJSON, config);
       doRequest.then(
         (res) => {
