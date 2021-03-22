@@ -7,6 +7,8 @@ const initialState = {
   fetchUserListError: null,
   loginPending: false,
   loginError: null,
+  findOneByIdPending: false,
+  findOneByIdError: null,
 };
 
 export default initialState;

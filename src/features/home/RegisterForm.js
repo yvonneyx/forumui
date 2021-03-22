@@ -114,7 +114,7 @@ function RegisterForm(props, ref) {
               required: true,
               message: 'Veuillez saisir votre nom d\'utilisateur!',
               whitespace: true,
-            },
+            }
           ]}
         >
           <Input />
@@ -123,11 +123,13 @@ function RegisterForm(props, ref) {
         <Form.Item
           name="password"
           label="Mot de passe"
+          tooltip="Le mot de passe doit être composé de 6 à 20 chiffres, lettres ou traits de soulignement, dont au moins deux, commençant par une lettre!"
           rules={[
             {
               required: true,
-              message: 'Veuillez saisir votre mot de passe!',
-            },
+              pattern: /^[a-zA-Z](?![a-zA-Z]+$)\w{5,19}$/,
+              message: 'Le mot de passe doit être composé de 6 à 20 chiffres, lettres ou traits de soulignement, dont au moins deux, commençant par une lettre!',
+            }
           ]}
           hasFeedback
         >

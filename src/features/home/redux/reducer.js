@@ -2,11 +2,13 @@ import initialState from './initialState';
 import { reducer as signUpReducer } from './signUp';
 import { reducer as fetchUserListReducer } from './fetchUserList';
 import { reducer as loginReducer } from './login';
+import { reducer as findOneByIdReducer } from './findOneById';
 
 const reducers = [
   signUpReducer,
   fetchUserListReducer,
   loginReducer,
+  findOneByIdReducer,
 ];
 
 export default function reducer(state = initialState, action) {

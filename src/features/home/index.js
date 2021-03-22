@@ -11,3 +11,4 @@ export { default as Signup } from './Signup';
 export { default as RegisterForm } from './RegisterForm';
 export { default as ThemeSelection } from './ThemeSelection';
 export { default as SignupSuccess } from './SignupSuccess';
+export { default as Profile } from './Profile';

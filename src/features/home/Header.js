@@ -18,13 +18,13 @@ import _ from 'lodash';
 
 export default function Header() {
   const [status, setStatus] = useState(true);
-  const [ cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   const onChange = checked => {
     setStatus(checked);
   };
 
-  function logout(){
+  const logout = () => {
     removeCookie('user');
   }
 
@@ -52,7 +52,7 @@ export default function Header() {
       </Menu.ItemGroup>
       <Menu.ItemGroup key="stuff" title="Mes affaires">
         <Menu.Item key="profile" icon={<ProfileOutlined />}>
-          Profil
+          <Link to={"/setting-profile"}>Profil</Link>
         </Menu.Item>
         <Menu.Item key="setting" icon={<SettingOutlined />}>
           Paramètres utilisateur
