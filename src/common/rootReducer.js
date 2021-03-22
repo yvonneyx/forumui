@@ -6,6 +6,7 @@ import homeReducer from '../features/home/redux/reducer';
 import commonReducer from '../features/common/redux/reducer';
 import examplesReducer from '../features/examples/redux/reducer';
 import chatReducer from '../features/chat/redux/reducer';
+import postReducer from '../features/post/redux/reducer';
 
 // NOTE 1: DO NOT CHANGE the 'reducerMap' name and the declaration pattern.
 // This is used for Rekit cmds to register new features, remove features, etc.
@@ -18,6 +19,7 @@ const reducerMap = {
   common: commonReducer,
   examples: examplesReducer,
   chat: chatReducer,
+  post: postReducer,
 };
 
 export default combineReducers(reducerMap);
