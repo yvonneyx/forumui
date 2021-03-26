@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 // import PropTypes from 'prop-types';
 import { ArticlesPopulaires, ArticlesListTab } from './';
 import { Row, Col } from 'antd';

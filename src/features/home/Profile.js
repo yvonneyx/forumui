@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
 import { useFindOneById, useUploadAvatar, useModifyOneById } from './redux/hooks';
 import { useCookies } from 'react-cookie';
@@ -25,7 +25,7 @@ const formTailLayout = {
 
 export default function Profile() {
   const { loggedUserInfo, findOneById } = useFindOneById();
-  const { avatarImgUrl, uploadAvatar } = useUploadAvatar();
+  const { uploadAvatar } = useUploadAvatar();
   const { modifyOneById } = useModifyOneById();
   const [cookies] = useCookies(['user']);
   let loggedId = cookies.user;
@@ -41,10 +41,11 @@ export default function Profile() {
   }, [findOneById, loggedId]);
 
   useEffect(() => {
-    form.setFieldsValue({ ...loggedUserInfo });
+    const newLoggedUserInfo = _.omit(loggedUserInfo, 'image');
+    form.setFieldsValue({ ...newLoggedUserInfo });
     if (loggedUserInfo && loggedUserInfo.image) {
-      setShownImgUrl(loggedUserInfo.image)
-    };
+      setShownImgUrl(loggedUserInfo.image);
+    }
   }, [form, loggedUserInfo]);
 
   const uploadButton = (
@@ -85,12 +86,11 @@ export default function Profile() {
       return formdata;
     },
     onSuccess: (res, file) => {
-      debugger;
       setLoading(false);
       setShownImgUrl(res.data);
     },
     customRequest: args => {
-      if(shownImgUrl){
+      if (shownImgUrl) {
         setShownImgUrl('');
       }
       uploadAvatar({ ...args });
@@ -98,18 +98,32 @@ export default function Profile() {
   };
 
   const showSuccessMsg = () => {
-    message.success("Modifié avec succès! 😊")
+    message.success('Modifié avec succès! 😊');
   };
 
   const showErrorMsg = () => {
-    message.error("L'opération de modification a échoué. Veuillez réessayer plus tard...😭")
-
-  }
+    message.error("L'opération de modification a échoué. Veuillez réessayer plus tard...😭");
+  };
 
   const onFinish = values => {
-    _.has(values, 'new_password') ?
-      modifyOneById({ id: loggedId, nickname: values.userName, email: values.eMail, url: shownImgUrl, password: values.new_password }).then(showSuccessMsg).catch(showErrorMsg) :
-      modifyOneById({ id: loggedId, nickname: values.userName, email: values.eMail, url: shownImgUrl }).then(showSuccessMsg).catch(showErrorMsg);
+    _.has(values, 'new_password')
+      ? modifyOneById({
+          id: loggedId,
+          nickname: values.userName,
+          email: values.eMail,
+          url: shownImgUrl,
+          password: values.new_password,
+        })
+          .then(showSuccessMsg)
+          .catch(showErrorMsg)
+      : modifyOneById({
+          id: loggedId,
+          nickname: values.userName,
+          email: values.eMail,
+          url: shownImgUrl,
+        })
+          .then(showSuccessMsg)
+          .catch(showErrorMsg);
   };
 
   return (
@@ -173,10 +187,10 @@ export default function Profile() {
                   return value === loggedUserInfo.password
                     ? Promise.resolve()
                     : Promise.reject(
-                      new Error(
-                        'Veuillez vérifier que votre mot de passe est entré correctement!',
-                      ),
-                    );
+                        new Error(
+                          'Veuillez vérifier que votre mot de passe est entré correctement!',
+                        ),
+                      );
                 },
               },
             ]}
@@ -225,10 +239,10 @@ export default function Profile() {
                   return !value || getFieldValue('new_password') === value
                     ? Promise.resolve()
                     : Promise.reject(
-                      new Error(
-                        'Les deux mots de passe que vous avez saisis ne correspondent pas!',
-                      ),
-                    );
+                        new Error(
+                          'Les deux mots de passe que vous avez saisis ne correspondent pas!',
+                        ),
+                      );
                 },
               }),
             ]}
@@ -248,6 +262,7 @@ export default function Profile() {
           name="avatar"
           label="Avatar"
           help="Les images doivent être au format .png ou .jpg"
+          valuePropName="fileList"
         >
           <Upload
             name="avatorImg"
@@ -261,8 +276,8 @@ export default function Profile() {
             {shownImgUrl ? (
               <img src={shownImgUrl} alt="avatar" style={{ width: '100%' }} />
             ) : (
-                uploadButton
-              )}
+              uploadButton
+            )}
           </Upload>
         </Form.Item>
         <Form.Item {...formTailLayout}>

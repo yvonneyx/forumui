@@ -58,9 +58,8 @@ export function dismissUploadAvatarError() {
 export function useUploadAvatar(params) {
   const dispatch = useDispatch();
 
-  const { avatarImgUrl, uploadAvatarPending, uploadAvatarError } = useSelector(
+  const { uploadAvatarPending, uploadAvatarError } = useSelector(
     state => ({
-      avatarImgUrl: state.home.avatarImgUrl,
       uploadAvatarPending: state.home.uploadAvatarPending,
       uploadAvatarError: state.home.uploadAvatarError,
     }),
@@ -80,7 +79,6 @@ export function useUploadAvatar(params) {
   }, [dispatch]);
 
   return {
-    avatarImgUrl,
     uploadAvatar: boundAction,
     uploadAvatarPending,
     uploadAvatarError,
@@ -102,7 +100,6 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
-        avatarImgUrl: action.data,
         uploadAvatarPending: false,
         uploadAvatarError: null,
       };

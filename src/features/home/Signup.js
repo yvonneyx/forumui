@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 // import PropTypes from 'prop-types';
 // import {} from './redux/hooks';
-import { Card, Steps, Button, message, notification } from 'antd';
+import { Card, Steps, Button, notification } from 'antd';
 import { RegisterForm, ThemeSelection, SignupSuccess } from './';
 import { useSignUp } from './redux/hooks';
 import _ from 'lodash';

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 // import PropTypes from 'prop-types';
 // import {} from './redux/hooks';
 import { Link } from 'react-router-dom';
@@ -18,7 +18,7 @@ import _ from 'lodash';
 
 export default function Header() {
   const [status, setStatus] = useState(true);
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [cookies, removeCookie] = useCookies(["user"]);
 
   const onChange = checked => {
     setStatus(checked);
