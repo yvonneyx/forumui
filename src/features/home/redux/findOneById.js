@@ -51,6 +51,7 @@ export function useFindOneById(params) {
 
   const { loggedUserInfo, findOneByIdPending, findOneByIdError } = useSelector(
     state => ({
+      loggedUserInfo: state.home.loggedUserInfo,
       findOneByIdPending: state.home.findOneByIdPending,
       findOneByIdError: state.home.findOneByIdError,
     }),

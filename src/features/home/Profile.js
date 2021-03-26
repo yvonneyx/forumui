@@ -1,21 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 // import PropTypes from 'prop-types';
-import { useFindOneById } from './redux/hooks';
-import ImgCrop from 'antd-img-crop';
-import { useCookies } from "react-cookie";
-import { Card, Form, Upload, Input, Typography, Button, Divider } from 'antd';
+import { useFindOneById, useUploadAvatar, useModifyOneById } from './redux/hooks';
+import { useCookies } from 'react-cookie';
+import { Card, Form, Upload, Input, Typography, Button, Divider, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { serverUrl } from '../../common/globalConfig';
+import _ from 'lodash';
 const { TextArea } = Input;
 
 const formItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 10 },
-};
-
-const formSpecialItemLayout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 8 },
 };
 
 // const formEditorItemLayout = {
@@ -29,28 +24,28 @@ const formTailLayout = {
 };
 
 export default function Profile() {
-  // const { loggedUserInfo, findOneById, findOneByIdPending, findOneByIdError } = useFindOneById();
-  const [cookies] = useCookies(["user"]);
+  const { loggedUserInfo, findOneById } = useFindOneById();
+  const { avatarImgUrl, uploadAvatar } = useUploadAvatar();
+  const { modifyOneById } = useModifyOneById();
+  const [cookies] = useCookies(['user']);
   let loggedId = cookies.user;
 
   const [form] = Form.useForm();
 
-  // const [currentData, setCurrentData] = useState([]);
-  const [imageUrl, setImageUrl] = useState('');
+  const [shownImgUrl, setShownImgUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [pwdUpdate, setPwdUpdate] = useState(false);
 
-  // useEffect(() => {
-  //   findOneById(loggedId);
-  //   setCurrentData(loggedUserInfo);
-  // }, [findOneById])
+  useEffect(() => {
+    findOneById(loggedId);
+  }, [findOneById, loggedId]);
 
-  let currentData = {
-    id: 22,
-    userName: 'Ronan',
-    password: 'Ronan',
-    eMail: 'roantzh@gmail.com',
-  };
+  useEffect(() => {
+    form.setFieldsValue({ ...loggedUserInfo });
+    if (loggedUserInfo && loggedUserInfo.image) {
+      setShownImgUrl(loggedUserInfo.image)
+    };
+  }, [form, loggedUserInfo]);
 
   const uploadButton = (
     <div>
@@ -59,39 +54,63 @@ export default function Profile() {
     </div>
   );
 
-  // const onUploadPreview = async file => {
-  //   let src = file.url;
-  //   if (!src) {
-  //     src = await new Promise(resolve => {
-  //       const reader = new FileReader();
-  //       reader.readAsDataURL(file.originFileObj);
-  //       reader.onload = () => resolve(reader.result);
-  //     });
-  //   }
-  //   const image = new Image();
-  //   image.src = src;
-  //   const imgWindow = window.open(src);
-  //   imgWindow.document.write(image.outerHTML);
-  // };
+  const beforeAvatarUpload = file => {
+    const isJpgOrPng =
+      file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('Vous ne pouvez télécharger que des fichiers JPG / PNG!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error("L'image doit être inférieure à 2 Mo!");
+    }
+    return isJpgOrPng && isLt2M;
+  };
 
-  const handleChange = info => {
-    debugger;
+  const handleAvatarChange = info => {
     if (info.file.status === 'uploading') {
       setLoading(true);
       return;
     }
-    if (info.file.status === 'done') {
-      setLoading(false);
-      debugger;
-      setImageUrl(info.file.response.info);
-    }
   };
+
+  const uploadProps = {
+    action: `${serverUrl}/User/fileUpload`,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    data: file => {
+      var formdata = new FormData();
+      formdata.append('file', file);
+      return formdata;
+    },
+    onSuccess: (res, file) => {
+      debugger;
+      setLoading(false);
+      setShownImgUrl(res.data);
+    },
+    customRequest: args => {
+      if(shownImgUrl){
+        setShownImgUrl('');
+      }
+      uploadAvatar({ ...args });
+    },
+  };
+
+  const showSuccessMsg = () => {
+    message.success("Modifié avec succès! 😊")
+  };
+
+  const showErrorMsg = () => {
+    message.error("L'opération de modification a échoué. Veuillez réessayer plus tard...😭")
+
+  }
 
   const onFinish = values => {
-    console.log(values);
+    _.has(values, 'new_password') ?
+      modifyOneById({ id: loggedId, nickname: values.userName, email: values.eMail, url: shownImgUrl, password: values.new_password }).then(showSuccessMsg).catch(showErrorMsg) :
+      modifyOneById({ id: loggedId, nickname: values.userName, email: values.eMail, url: shownImgUrl }).then(showSuccessMsg).catch(showErrorMsg);
   };
-
-  form.setFieldsValue({ ...currentData });
 
   return (
     <Card className="home-profile" title="Mon profile">
@@ -108,7 +127,9 @@ export default function Profile() {
           tooltip="L'adresse email est utilisée comme identifiant unique de l'utilisateur, la modification est interdite
 ."
         >
-          <Typography.Text type="primary">{currentData.eMail}</Typography.Text>
+          <Typography.Text type="primary">
+            {loggedUserInfo ? loggedUserInfo.eMail : ''}
+          </Typography.Text>
         </Form.Item>
         <Form.Item
           name="userName"
@@ -149,13 +170,13 @@ export default function Profile() {
               },
               {
                 validator(_, value) {
-                  return value === currentData.password
+                  return value === loggedUserInfo.password
                     ? Promise.resolve()
                     : Promise.reject(
-                        new Error(
-                          'Veuillez vérifier que votre mot de passe est entré correctement!',
-                        ),
-                      );
+                      new Error(
+                        'Veuillez vérifier que votre mot de passe est entré correctement!',
+                      ),
+                    );
                 },
               },
             ]}
@@ -204,10 +225,10 @@ export default function Profile() {
                   return !value || getFieldValue('new_password') === value
                     ? Promise.resolve()
                     : Promise.reject(
-                        new Error(
-                          'Les deux mots de passe que vous avez saisis ne correspondent pas!',
-                        ),
-                      );
+                      new Error(
+                        'Les deux mots de passe que vous avez saisis ne correspondent pas!',
+                      ),
+                    );
                 },
               }),
             ]}
@@ -228,23 +249,21 @@ export default function Profile() {
           label="Avatar"
           help="Les images doivent être au format .png ou .jpg"
         >
-          <ImgCrop rotate>
-            <Upload
-              name="avatorImg"
-              listType="picture-card"
-              className="avatar-uploader"
-              showUploadList={false}
-              // action={serverUrl + '/api/v1/common/file_upload'}
-              onChange={info => handleChange(info)}
-              // onPreview={onUploadPreview}
-            >
-              {imageUrl ? (
-                <img src={serverUrl + imageUrl} alt="avatar" style={{ width: '100%' }} />
-              ) : (
+          <Upload
+            name="avatorImg"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            beforeUpload={beforeAvatarUpload}
+            onChange={handleAvatarChange}
+            {...uploadProps}
+          >
+            {shownImgUrl ? (
+              <img src={shownImgUrl} alt="avatar" style={{ width: '100%' }} />
+            ) : (
                 uploadButton
               )}
-            </Upload>
-          </ImgCrop>
+          </Upload>
         </Form.Item>
         <Form.Item {...formTailLayout}>
           <Button type="primary" htmlType="submit" className="submit-btn">

@@ -7,8 +7,13 @@ const initialState = {
   fetchUserListError: null,
   loginPending: false,
   loginError: null,
+  loggedUserInfo: null,
   findOneByIdPending: false,
   findOneByIdError: null,
+  uploadAvatarPending: false,
+  uploadAvatarError: null,
+  modifyOneByIdPending: false,
+  modifyOneByIdError: null,
 };
 
 export default initialState;
