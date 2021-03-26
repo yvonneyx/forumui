@@ -18,7 +18,7 @@ import _ from 'lodash';
 
 export default function Header() {
   const [status, setStatus] = useState(true);
-  const [cookies, removeCookie] = useCookies(["user"]);
+  const [cookies, setcookie, removeCookie] = useCookies(["user"]);
 
   const onChange = checked => {
     setStatus(checked);
@@ -73,7 +73,7 @@ export default function Header() {
         </Link>
         Forum Brainstorming
       </div>
-      {_.isEmpty(cookies) ? (
+      {_.isEmpty(cookies.user) ? (
         <Space className="home-header-nav">
           <Button className="home-header-nav-btn home-header-nav-identifier" href="/login">
             S'identifier
