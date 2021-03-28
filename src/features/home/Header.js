@@ -85,7 +85,7 @@ export default function Header() {
       ) : (
           <Space className="home-header-nav" size="1px">
             <Button icon={<MessageFilled />} type="text" />
-            <Button icon={<EditFilled />} type="text" />
+            <Button icon={<EditFilled />} type="text" href="/post/create"/>
             <Divider type="vertical" />
             <Dropdown overlay={menu} trigger={['click']}>
               <div>
