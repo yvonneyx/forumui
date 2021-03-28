@@ -1,0 +1,55 @@
+@import '../../styles/mixins';
+
+.post-post-view {
+
+  width: 860px;
+  margin: 0 auto;
+
+  &-content{
+    display: block;
+    margin: 12px 0 12px 80px;
+  }
+
+  &-submit{
+    display: block;
+    margin-left: 260px; 
+  }
+
+  &-auther{
+    display: block;
+    text-align: right;
+  }
+
+  &-results{
+    margin: 4px 0;
+  }
+
+  .antd-pro-charts-pie-pie .antd-pro-charts-pie{
+    &-legend{
+      width: 240px;
+
+      li{
+margin-bottom: 12px;
+      }
+    }
+
+    &-legendTitle{
+      display: inline-block;
+      vertical-align: bottom;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+  &-percent{
+    font-size: 13px;
+  }
+    &-value{
+      font-size: 13px;
+      position: absolute;
+      right: -16px;
+    }
+  }
+
+}

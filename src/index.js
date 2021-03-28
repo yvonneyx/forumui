@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Root from './Root';
 import * as serviceWorker from './serviceWorker';
 import './styles/index.less';
+import 'ant-design-pro/dist/ant-design-pro.css';
 
 ReactDOM.render(<Root />, document.getElementById('root'));
 
