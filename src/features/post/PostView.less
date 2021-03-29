@@ -1,39 +1,43 @@
 @import '../../styles/mixins';
 
 .post-post-view {
-
   width: 860px;
   margin: 0 auto;
 
-  &-content{
+  &-tag {
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  &-content {
     display: block;
     margin: 12px 0 12px 80px;
   }
 
-  &-submit{
+  &-submit {
     display: block;
-    margin-left: 260px; 
+    margin-left: 260px;
   }
 
-  &-auther{
+  &-auther {
     display: block;
     text-align: right;
   }
 
-  &-results{
+  &-results {
     margin: 4px 0;
   }
 
-  .antd-pro-charts-pie-pie .antd-pro-charts-pie{
-    &-legend{
+  .antd-pro-charts-pie-pie .antd-pro-charts-pie {
+    &-legend {
       width: 240px;
 
-      li{
-margin-bottom: 12px;
+      li {
+        margin-bottom: 12px;
       }
     }
 
-    &-legendTitle{
+    &-legendTitle {
       display: inline-block;
       vertical-align: bottom;
       max-width: 120px;
@@ -42,14 +46,13 @@ margin-bottom: 12px;
       white-space: nowrap;
     }
 
-  &-percent{
-    font-size: 13px;
-  }
-    &-value{
+    &-percent {
+      font-size: 13px;
+    }
+    &-value {
       font-size: 13px;
       position: absolute;
       right: -16px;
     }
   }
-
 }
