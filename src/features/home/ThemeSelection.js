@@ -1,23 +1,22 @@
-import React, { useState, useImperativeHandle, forwardRef } from 'react';
+import React, { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
 // import PropTypes from 'prop-types';
 import { Tag } from 'antd';
-
+import { useFetchCategoriesList } from '../common/redux/hooks';
+import _ from 'lodash';
 const { CheckableTag } = Tag;
 
-const tagsData = ['Conseils', 'Animaux', 'Art', 'Bricolage', 'Électronique', 'Divertissement',
-  'Mode', 'Nourriture', 'Drôle', 'Jeux', 'Santé', 'Mèmes', 'Musique', 'Actualités', 'Activités',
-  'Photographie', 'Images', 'Science', 'Sports', 'Technologie', 'Voyage', 'Jeux vidéo', 'Vidéos', 'Écriture'];
-
 function ThemeSelection(props, ref) {
-  const [selectedTags, setSelectedTags] = useState([]);
   const [selectedTagsInd, setSelectedTagsInd] = useState([]);
+  const { categoriesList, fetchCategoriesList } = useFetchCategoriesList();
 
   const handleChange = (tag, checked) => {
-    const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
-    const nextSelectedTagsInd = nextSelectedTags.map(tag => { return tagsData.indexOf(tag) + 1 });
-    setSelectedTags(nextSelectedTags);    
+    const nextSelectedTagsInd = checked ? [...selectedTagsInd, tag] : selectedTagsInd.filter(t => t !== tag);
     setSelectedTagsInd(nextSelectedTagsInd);
   }
+
+  useEffect(() => {
+    fetchCategoriesList();
+  }, [fetchCategoriesList])
 
   useImperativeHandle(ref, () => ({
     selectedTagsInd,
@@ -29,14 +28,14 @@ function ThemeSelection(props, ref) {
       <h4>Le brainstorming du forum est rempli de thèmes basées sur les intérêts, offrant quelque chose pour tout le monde.
 Forum brainstroming fonctionne mieux lorsque vous avez rejoint au moins 3 thèmes.</h4>
       <div className="home-theme-selection-themes"><h3 style={{ marginRight: 8 }}>Thèmes:</h3>
-        {tagsData.map(tag => (
+        {_.map((categoriesList || []), (value, key) => (
           <CheckableTag
             className="home-theme-selection-theme"
-            key={tag}
-            checked={selectedTags.indexOf(tag) > -1}
-            onChange={checked => handleChange(tag, checked)}
+            key={value}
+            checked={selectedTagsInd.indexOf(key) > -1}
+            onChange={checked => handleChange(key, checked)}
           >
-            {tag}
+            {value}
           </CheckableTag>
         ))}</div>
     </div>

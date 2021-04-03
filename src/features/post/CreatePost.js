@@ -3,38 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { Card, Form, Select, Button, Input, DatePicker, Typography, message, Spin } from 'antd';
 import { MinusCircleOutlined, PlusOutlined, SmileOutlined } from '@ant-design/icons';
 import { useFetchUserList } from '../home/redux/hooks';
+import { useFetchCategoriesList } from '../common/redux/hooks';
 import { useCreatePost } from './redux/hooks';
 import { useCookies } from 'react-cookie';
 import moment from 'moment';
 import _ from 'lodash';
 
 const { Option } = Select;
-const categories = [
-  'Conseils',
-  'Animaux',
-  'Art',
-  'Bricolage',
-  'Électronique',
-  'Divertissement',
-  'Mode',
-  'Nourriture',
-  'Drôle',
-  'Jeux',
-  'Santé',
-  'Mèmes',
-  'Musique',
-  'Actualités',
-  'Activités',
-  'Photographie',
-  'Images',
-  'Science',
-  'Sports',
-  'Technologie',
-  'Voyage',
-  'Jeux vidéo',
-  'Vidéos',
-  'Écriture',
-];
 
 const layout = {
   labelCol: { span: 4 },
@@ -46,7 +21,12 @@ export default function CreatePost(props) {
   const [access, setAccess] = useState('public');
   const { userList, fetchUserList } = useFetchUserList();
   const { createPost, createPostPending } = useCreatePost();
+  const { categoriesList, fetchCategoriesList} = useFetchCategoriesList();
   const [cookies] = useCookies(['user']);
+
+  useEffect(()=>{
+    fetchCategoriesList();
+  }, [fetchCategoriesList]);
 
   const onFinish = values => {
     const content2 = {};
@@ -159,12 +139,8 @@ export default function CreatePost(props) {
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
               >
-                {categories.map(category => {
-                  return (
-                    <Option value={categories.indexOf(category) + 1} key={category}>
-                      {category}
-                    </Option>
-                  );
+                {_.map((categoriesList || []), (k, v) => {
+                  return ( <Option value={v} key={v}>{k}</Option> );
                 })}
               </Select>
             </Form.Item>

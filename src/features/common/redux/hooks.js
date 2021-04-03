@@ -1,0 +1,1 @@
+export { useFetchCategoriesList } from './fetchCategoriesList';
