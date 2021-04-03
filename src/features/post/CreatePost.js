@@ -248,7 +248,7 @@ export default function CreatePost(props) {
                     {userList.map(user => {
                       return (
                         <Option value={user.id} key={user.id}>
-                          {user.userName} <span className="option-normal-text">- {user.eMail}</span>
+                          {user.nickname} <span className="option-normal-text">- {user.eMail}</span>
                         </Option>
                       );
                     })}

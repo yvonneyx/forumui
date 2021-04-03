@@ -43,8 +43,8 @@ export default function Profile() {
   useEffect(() => {
     const newLoggedUserInfo = _.omit(loggedUserInfo, 'image');
     form.setFieldsValue({ ...newLoggedUserInfo });
-    if (loggedUserInfo && loggedUserInfo.image) {
-      setShownImgUrl(loggedUserInfo.image);
+    if (loggedUserInfo && loggedUserInfo.avatarUrl) {
+      setShownImgUrl(loggedUserInfo.avatarUrl);
     }
   }, [form, loggedUserInfo]);
 
@@ -109,7 +109,7 @@ export default function Profile() {
     _.has(values, 'new_password')
       ? modifyOneById({
           id: loggedId,
-          nickname: values.userName,
+          nickname: values.nickname,
           email: values.eMail,
           url: shownImgUrl,
           password: values.new_password,
@@ -119,7 +119,7 @@ export default function Profile() {
           .catch(showErrorMsg)
       : modifyOneById({
           id: loggedId,
-          nickname: values.userName,
+          nickname: values.nickname,
           email: values.eMail,
           url: shownImgUrl,
           about: values.about,
@@ -148,9 +148,9 @@ export default function Profile() {
           </Typography.Text>
         </Form.Item>
         <Form.Item
-          name="userName"
+          name="nickname"
           label="Nom d'utilisateur"
-          key="userName"
+          key="nickname"
           required
           hasFeedback
           rules={[
