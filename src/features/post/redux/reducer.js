@@ -8,9 +8,11 @@
 
 import initialState from './initialState';
 import { reducer as createPostReducer } from './createPost';
+import { reducer as findPostByIdReducer } from './findPostById';
 
 const reducers = [
   createPostReducer,
+  findPostByIdReducer,
 ];
 
 export default function reducer(state = initialState, action) {

@@ -8,6 +8,8 @@
 const initialState = {
   createPostPending: false,
   createPostError: null,
+  findPostByIdPending: false,
+  findPostByIdError: null,
 };
 
 export default initialState;
