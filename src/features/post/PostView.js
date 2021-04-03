@@ -7,7 +7,6 @@ import {
   Avatar,
   Button,
   Comment,
-  Tooltip,
   List,
   Input,
   Form,
@@ -20,7 +19,7 @@ import { Pie } from 'ant-design-pro/lib/Charts';
 import _ from 'lodash';
 import moment from 'moment';
 import 'moment/locale/fr'
-import { useFindPostById } from './redux/hooks';
+import { useFindPostById, useVote } from './redux/hooks';
 import { useCookies } from "react-cookie";
 const { TextArea } = Input;
 
@@ -30,28 +29,23 @@ export default function PostView({ match }) {
   const [comments, setComments] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [value, setValue] = useState('');
+  const [hasVoted, setHasVoted] = useState(false);
+  const [answerDetail, setAnswerDetail] = useState([]);
   const { postDetail, findPostById, findPostByIdPending } = useFindPostById();
+  const { vote, votePending } = useVote();
   const [cookies] = useCookies(["user"]);
-  let loggedId = cookies.user;
+  let loggedId = parseInt(cookies.user);
 
   useEffect(() => {
     findPostById({ id: postId });
-  }, [findPostById, postId]);
+  }, [findPostById, postId, hasVoted]);
 
-  const answerDetail = [
-    {
-      x: 'enthusiastic',
-      y: 12,
-    },
-    {
-      x: 'intersting',
-      y: 18,
-    },
-    {
-      x: 'boring',
-      y: 1,
-    },
-  ];
+  useEffect(() => {
+    if (!_.isEmpty(postDetail)) {
+      const { answerCount, content } = postDetail;
+      setAnswerDetail(convertFormatPieDate(answerCount, content));
+    }
+  }, [postDetail]);
 
   const endTimeContent = (active, endTimeFr) => {
     return <div className="endtime-tag-popover">
@@ -61,7 +55,7 @@ export default function PostView({ match }) {
     </div>
   }
 
-  const IsActive = endTime => {
+  const isActive = endTime => {
     var active = endTime > moment(new Date()).format('x');
     var endTimeFr = moment(endTime).locale('fr');
     return (
@@ -73,7 +67,7 @@ export default function PostView({ match }) {
     );
   }
 
-  const IsActiveAndCanVote = postDetail => {
+  const isActiveAndCanVote = postDetail => {
     const { endTime, participants, isAnswerIds, access } = postDetail;
     if (access === 'public') {
       return endTime > moment(new Date()).format('x') && !_.includes(isAnswerIds, loggedId)
@@ -94,8 +88,38 @@ export default function PostView({ match }) {
     setCheckedValue(e.target.value);
   };
 
-  const toVote = () => {
-    debugger;
+  const toVote = checkedValue => {
+    const answerRequest = {
+      id: postId,
+      answerNo: checkedValue,
+      answerId: loggedId
+    }
+    vote(answerRequest).then(
+      res => {
+        setHasVoted(true);
+      }
+    )
+  }
+
+  const convertFormatPieDate = (answerCount, content) => {
+    let answerFormat = [];
+    _.mapKeys(content, (key, value) => {
+      answerFormat.push({
+        x: key,
+        y: answerCount[value]
+      })
+    });
+    return answerFormat;
+  }
+
+  const videResult = postDetail => {
+    let vide = true;
+    _.forEach(_.values(postDetail && postDetail.answerCount), v => {
+      if (v !== 0) {
+        vide = false;
+      }
+    });
+    return vide;
   }
 
   const handleSubmit = () => {
@@ -130,11 +154,11 @@ export default function PostView({ match }) {
   return (
     <div className="post-post-view">
       <Spin spinning={findPostByIdPending}>
-        {!_.isEmpty(postDetail) && <Card>
+        {!_.isEmpty(postDetail) && <Spin spinning={votePending}><Card>
           <h2>
             {postDetail.title}
             {accessTag(postDetail.access)}
-            {IsActive(postDetail.endTime)}
+            {isActive(postDetail.endTime)}
           </h2>
           <div className="post-post-view-contents">
             {!_.isEmpty(postDetail.content) ?
@@ -142,13 +166,13 @@ export default function PostView({ match }) {
                 <Radio.Group onChange={onRadioChange} value={checkedValue}>
                   {_.map(_.keys(postDetail.content), key => {
                     return (
-                      <Radio className="post-post-view-content" value={key} disabled={!IsActiveAndCanVote(postDetail)}>
+                      <Radio className="post-post-view-content" value={key} disabled={!isActiveAndCanVote(postDetail)}>
                         {postDetail.content[key]}
                       </Radio>
                     );
                   })}
                 </Radio.Group>
-                {IsActiveAndCanVote(postDetail) && <Button type="primary" className="post-post-view-submit" onClick={() => toVote(checkedValue)}>
+                {isActiveAndCanVote(postDetail) && <Button type="primary" className="post-post-view-submit" onClick={() => toVote(checkedValue)}>
                   Partager mon avis
                 </Button>}
               </div>
@@ -163,14 +187,16 @@ export default function PostView({ match }) {
           <Avatar src={postDetail.avatarUrl} icon={<UserOutlined />} size={30} />{' '}
             {postDetail.nickname} )
         </Typography.Text>
-        </Card>}
+        </Card></Spin>}
         <Card title="Résultats statistiques" className="post-post-view-results">
-          <Pie
+          {!videResult(postDetail) ? <Pie
             hasLegend
             data={answerDetail}
             height={180}
             valueFormat={val => <span>{val > 1 ? `${val} votes` : `${val} vote`}</span>}
-          />
+          /> : (<Typography.Text className="post-post-view-results-aucune" type="secondary">
+            ( <SmileOutlined /> Aucune résultat n'est actuellement disponible. )
+            </Typography.Text>)}
         </Card>
         <Card className="post-post-view-comments">
           {comments.length > 0 && <CommentList comments={comments} />}

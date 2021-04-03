@@ -10,6 +10,8 @@ const initialState = {
   createPostError: null,
   findPostByIdPending: false,
   findPostByIdError: null,
+  votePending: false,
+  voteError: null,
 };
 
 export default initialState;

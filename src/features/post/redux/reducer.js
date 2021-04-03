@@ -9,10 +9,12 @@
 import initialState from './initialState';
 import { reducer as createPostReducer } from './createPost';
 import { reducer as findPostByIdReducer } from './findPostById';
+import { reducer as voteReducer } from './vote';
 
 const reducers = [
   createPostReducer,
   findPostByIdReducer,
+  voteReducer,
 ];
 
 export default function reducer(state = initialState, action) {
