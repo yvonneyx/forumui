@@ -113,6 +113,7 @@ export default function Profile() {
           email: values.eMail,
           url: shownImgUrl,
           password: values.new_password,
+          about: values.about,
         })
           .then(showSuccessMsg)
           .catch(showErrorMsg)
@@ -121,6 +122,7 @@ export default function Profile() {
           nickname: values.userName,
           email: values.eMail,
           url: shownImgUrl,
+          about: values.about,
         })
           .then(showSuccessMsg)
           .catch(showErrorMsg);
