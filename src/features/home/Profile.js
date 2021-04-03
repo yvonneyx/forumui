@@ -264,7 +264,6 @@ export default function Profile() {
           name="avatar"
           label="Avatar"
           help="Les images doivent être au format .png ou .jpg"
-          valuePropName="fileList"
         >
           <Upload
             name="avatorImg"
