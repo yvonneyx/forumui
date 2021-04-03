@@ -19,6 +19,7 @@ import _ from 'lodash';
 export default function Header() {
   const [status, setStatus] = useState(true);
   const [cookies, setcookie, removeCookie] = useCookies(["user"]);
+  let loggedId = cookies.user;
 
   const onChange = checked => {
     setStatus(checked);
@@ -52,7 +53,7 @@ export default function Header() {
       </Menu.ItemGroup>
       <Menu.ItemGroup key="stuff" title="Mes affaires">
         <Menu.Item key="profile" icon={<ProfileOutlined />}>
-          <Link to={"/setting-profile"}>Profil</Link>
+          <a href={"/setting-profile"}>Profil</a>
         </Menu.Item>
         <Menu.Item key="setting" icon={<SettingOutlined />}>
           Paramètres utilisateur
@@ -73,7 +74,7 @@ export default function Header() {
         </Link>
         Forum Brainstorming
       </div>
-      {_.isEmpty(cookies.user) ? (
+      {_.isEmpty(loggedId) ? (
         <Space className="home-header-nav">
           <Button className="home-header-nav-btn home-header-nav-identifier" href="/login">
             S'identifier
@@ -89,7 +90,7 @@ export default function Header() {
             <Divider type="vertical" />
             <Dropdown overlay={menu} trigger={['click']}>
               <div>
-                <UserCard status={status} />
+                <UserCard status={status} loggedId={loggedId}/>
               </div>
             </Dropdown>
           </Space>
