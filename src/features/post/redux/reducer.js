@@ -10,11 +10,15 @@ import initialState from './initialState';
 import { reducer as createPostReducer } from './createPost';
 import { reducer as findPostByIdReducer } from './findPostById';
 import { reducer as voteReducer } from './vote';
+import { reducer as findPostsByCategoryReducer } from './findPostsByCategory';
+import { reducer as findPostsByUserIdReducer } from './findPostsByUserId';
 
 const reducers = [
   createPostReducer,
   findPostByIdReducer,
   voteReducer,
+  findPostsByCategoryReducer,
+  findPostsByUserIdReducer,
 ];
 
 export default function reducer(state = initialState, action) {

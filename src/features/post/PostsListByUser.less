@@ -1,0 +1,73 @@
+@import '../../styles/mixins';
+
+.post-posts-list-by-user {
+  background: #FAFAFA;
+  border-radius: 5px;
+  height: 100%;
+  width: 100%;
+
+  &-list {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    // width: 100%;
+    // height: 100%;
+
+    .ant-list-header {
+      background: @blue;
+      color: whitesmoke;
+      font-weight: 500;
+      font-size: 15px;
+      height: 40px;
+      line-height: 40px;
+      border-radius: 5px 5px 0 0;
+    }
+
+    .ant-spin-nested-loading {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      width: 100%;
+      overflow: auto;
+    }
+
+    .ant-list-items {
+      height: 260px;
+    }
+
+    .ant-list-split .ant-list-header {
+      border-bottom: none;
+    }
+
+    .ant-list-header {
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+
+    &-item {
+       
+      a {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.85);
+        display: block;
+        width: 100%;
+      }
+
+      a:hover {
+        text-decoration: underline;
+        color: @darkblue;
+      }
+
+      &-tag {
+        font-size: 12px;
+        display: inline;
+      }
+    }
+  }
+}

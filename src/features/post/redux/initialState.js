@@ -12,6 +12,10 @@ const initialState = {
   findPostByIdError: null,
   votePending: false,
   voteError: null,
+  findPostsByCategoryPending: false,
+  findPostsByCategoryError: null,
+  findPostsByUserIdPending: false,
+  findPostsByUserIdError: null,
 };
 
 export default initialState;

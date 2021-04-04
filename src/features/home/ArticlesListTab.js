@@ -1,38 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import PropTypes from 'prop-types';
-import { ArticlesListContent } from './';
+import { PostsListContent } from '../post';
 import { Tabs, Card } from 'antd';
+import { useFetchCategoriesList } from '../common/redux/hooks';
+import _ from 'lodash';
 
 const { TabPane } = Tabs;
 
 export default function ArticlesListTab() {
-  const [selectedCategory, setSelectedCategory] = useState('tous');
+  const [selectedCategory, setSelectedCategory] = useState(1);
+  const { categoriesList, fetchCategoriesList } = useFetchCategoriesList();
 
-  const categories = [
-    { tab: 'Tous', key: 'tous', content: ' Content of Tab Pane' },
-    { tab: 'Jeux', key: 'jeux', content: ' Content of Tab Pane' },
-    { tab: 'Films', key: 'films', content: ' Content of Tab Pane' },
-    { tab: 'Livres', key: 'livres', content: ' Content of Tab Pane' },
-    { tab: 'Education', key: 'education', content: ' Content of Tab Pane' },
-    { tab: 'Nutrition', key: 'nutrition', content: ' Content of Tab Pane' },
-    { tab: 'Les dessins animés', key: 'dessins', content: ' Content of Tab Pane' },
-  ];
+  const categoriesFormat = (categoriesList) => {
+    let categories = [];
+    _.forIn(categoriesList, (value, key) => {
+      categories.push({
+        tab: value,
+        key: key
+      })
+    });
+    return categories;
+  }
 
   const callback = (key) => {
     setSelectedCategory(key)
   }
 
+  useEffect(() => {
+    fetchCategoriesList();
+  }, [fetchCategoriesList])
+
   return (
     <div className="home-articles-list-tab">
-      <Card title="Articles">
-        <Tabs onChange={callback} defaultActiveKey="tous" size="small">
-          {categories.map(item => {
+        <div className="home-articles-list-tab-header">Afficher tous les Brainstorming</div>
+        <Tabs className="home-articles-list-tab-content" onChange={callback} defaultActiveKey="1" tabPosition="left" type="card" size="small">
+          {(categoriesFormat(categoriesList) || []).map(item => {
             return (<TabPane tab={item.tab} key={item.key}>
-              <ArticlesListContent category={selectedCategory} />
+              <PostsListContent category={selectedCategory} />
             </TabPane>)
           })}
         </Tabs>
-      </Card>
     </div>
   );
 };

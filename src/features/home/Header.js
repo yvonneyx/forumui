@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // import PropTypes from 'prop-types';
 // import {} from './redux/hooks';
-import { Link } from 'react-router-dom';
+import { Link, Prompt } from 'react-router-dom';
 import { Space, Button, Menu, Dropdown, Switch, Divider } from 'antd';
 import {
   MessageFilled,
@@ -86,7 +86,7 @@ export default function Header() {
       ) : (
           <Space className="home-header-nav" size="1px">
             <Button icon={<MessageFilled />} type="text" />
-            <Button icon={<EditFilled />} type="text" href="/post/create"/>
+            <Button icon={<EditFilled />} type="text" href="new-post"/>
             <Divider type="vertical" />
             <Dropdown overlay={menu} trigger={['click']}>
               <div>

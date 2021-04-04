@@ -6,8 +6,10 @@ import { useFetchUserList } from '../home/redux/hooks';
 import { useFetchCategoriesList } from '../common/redux/hooks';
 import { useCreatePost } from './redux/hooks';
 import store from '../../common/store';
+import useForceUpdate from 'use-force-update';
 import moment from 'moment';
 import _ from 'lodash';
+import { PostsListByUser } from './';
 
 const { Option } = Select;
 
@@ -19,10 +21,14 @@ const layout = {
 
 export default function CreatePost(props) {
   const [access, setAccess] = useState('public');
+  const [hasNew, setHasNew] = useState(false);
   const { userList, fetchUserList } = useFetchUserList();
   const { createPost, createPostPending } = useCreatePost();
   const { categoriesList, fetchCategoriesList } = useFetchCategoriesList();
   let loggedId = store.getState().home.loggedUserInfo && store.getState().home.loggedUserInfo.id;
+  const forceUpdate = useForceUpdate();
+
+  useEffect(() => { store.subscribe(() => { forceUpdate(); }, [])});
 
   useEffect(() => {
     fetchCategoriesList();
@@ -43,6 +49,7 @@ export default function CreatePost(props) {
     createPost(postInfo)
       .then(res => {
         const newPostId = res.data.ext.create.id;
+        setHasNew(true);
         message.success('Créé avec succès! 😊');
         message
           .info('Après 2s, il passera automatiquement à la page de sujet de Brainstorming.', 2)
@@ -125,7 +132,7 @@ export default function CreatePost(props) {
 
   return (
     <div className="post-create-post">
-      <Card title="Créer un BrainStorming">
+      <Card className="layout-left" title="Créer un BrainStorming">
         <Spin spinning={createPostPending}>
           <Form onFinish={onFinish} {...layout}>
             <Form.Item name="categoryId" rules={[{ validator: categoryValidator }]}>
@@ -197,7 +204,7 @@ export default function CreatePost(props) {
 
             <Form.Item
               name="endTime"
-              label="Date limite du sujet"
+              label="Date limite"
               tooltip="La durée du sujet est d'au moins cinq minutes!"
             >
               <DatePicker
@@ -245,6 +252,7 @@ export default function CreatePost(props) {
           </Form>
         </Spin>
       </Card>
+      <div className="layout-right"><PostsListByUser loggedId={loggedId} hasNew={hasNew}/></div>
     </div>
   );
 }

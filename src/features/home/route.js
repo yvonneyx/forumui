@@ -1,4 +1,4 @@
-import { WelcomePage, Accueil, Login, Signup, Profile } from './';
+import { WelcomePage, Accueil, Login, Signup, Profile,CategoriesWidget } from './';
 
 export default {
   path: '',
@@ -6,5 +6,6 @@ export default {
   { path: 'accueil', component: Accueil },
   { path: 'login', component: Login, hideHeader: true },
   { path: 'signup', component: Signup },
-  { path: 'setting-profile', component: Profile }],
+  { path: 'setting-profile', component: Profile },
+  { path: 'CategoriesWidget', component: CategoriesWidget }],
 };

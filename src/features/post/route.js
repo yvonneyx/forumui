@@ -4,9 +4,9 @@ import { CreatePost, PostView } from './';
 
 
 export default {
-  path: 'post',
+  path: '',
   childRoutes: [
-    { path: 'create', component: CreatePost },
-    { path: ':id', component: PostView },
+    { path: 'new-post', component: CreatePost },
+    { path: 'post/:id', component: PostView },
   ],
 };
