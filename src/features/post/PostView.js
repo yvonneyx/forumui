@@ -20,11 +20,12 @@ import _ from 'lodash';
 import moment from 'moment';
 import 'moment/locale/fr'
 import { useFindPostById, useVote } from './redux/hooks';
-import { useCookies } from "react-cookie";
+import store from '../../common/store';
 const { TextArea } = Input;
 
 export default function PostView({ match }) {
   const postId = match.params.id;
+  const loggedId = parseInt(store.getState().home.loggedUserInfo && store.getState().home.loggedUserInfo.id);
   const [checkedValue, setCheckedValue] = useState(1);
   const [comments, setComments] = useState([]);
   const [submitting, setSubmitting] = useState(false);
@@ -33,8 +34,6 @@ export default function PostView({ match }) {
   const [answerDetail, setAnswerDetail] = useState([]);
   const { postDetail, findPostById, findPostByIdPending } = useFindPostById();
   const { vote, votePending } = useVote();
-  const [cookies] = useCookies(["user"]);
-  let loggedId = parseInt(cookies.user);
 
   useEffect(() => {
     findPostById({ id: postId });

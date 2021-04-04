@@ -26,7 +26,7 @@ export default function Header() {
   };
 
   const logout = () => {
-    removeCookie('user');
+    removeCookie('user', loggedId);
   }
 
   const menu = (
@@ -53,7 +53,7 @@ export default function Header() {
       </Menu.ItemGroup>
       <Menu.ItemGroup key="stuff" title="Mes affaires">
         <Menu.Item key="profile" icon={<ProfileOutlined />}>
-          <a href={"/setting-profile"}>Profil</a>
+          <a className="profile-link" href="/setting-profile">Profil</a>
         </Menu.Item>
         <Menu.Item key="setting" icon={<SettingOutlined />}>
           Paramètres utilisateur

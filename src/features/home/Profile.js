@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
 import { useFindOneById, useUploadAvatar, useModifyOneById } from './redux/hooks';
-import { useCookies } from 'react-cookie';
 import { Card, Form, Upload, Input, Typography, Button, Divider, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { serverUrl } from '../../common/globalConfig';
+import store from '../../common/store';
 import _ from 'lodash';
 const { TextArea } = Input;
 
@@ -27,9 +27,7 @@ export default function Profile() {
   const { loggedUserInfo, findOneById } = useFindOneById();
   const { uploadAvatar } = useUploadAvatar();
   const { modifyOneById } = useModifyOneById();
-  const [cookies] = useCookies(['user']);
-  let loggedId = cookies.user;
-
+  const loggedId = store.getState().home.loggedUserInfo && store.getState().home.loggedUserInfo.id;
   const [form] = Form.useForm();
 
   const [shownImgUrl, setShownImgUrl] = useState('');
@@ -111,7 +109,7 @@ export default function Profile() {
           id: loggedId,
           nickname: values.nickname,
           email: values.eMail,
-          url: shownImgUrl,
+          avatarUrl: shownImgUrl,
           password: values.new_password,
           about: values.about,
         })
@@ -121,7 +119,7 @@ export default function Profile() {
           id: loggedId,
           nickname: values.nickname,
           email: values.eMail,
-          url: shownImgUrl,
+          avatarUrl: shownImgUrl,
           about: values.about,
         })
           .then(showSuccessMsg)

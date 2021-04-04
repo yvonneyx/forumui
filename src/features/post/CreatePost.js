@@ -5,7 +5,7 @@ import { MinusCircleOutlined, PlusOutlined, SmileOutlined } from '@ant-design/ic
 import { useFetchUserList } from '../home/redux/hooks';
 import { useFetchCategoriesList } from '../common/redux/hooks';
 import { useCreatePost } from './redux/hooks';
-import { useCookies } from 'react-cookie';
+import store from '../../common/store';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -21,10 +21,10 @@ export default function CreatePost(props) {
   const [access, setAccess] = useState('public');
   const { userList, fetchUserList } = useFetchUserList();
   const { createPost, createPostPending } = useCreatePost();
-  const { categoriesList, fetchCategoriesList} = useFetchCategoriesList();
-  const [cookies] = useCookies(['user']);
+  const { categoriesList, fetchCategoriesList } = useFetchCategoriesList();
+  let loggedId = store.getState().home.loggedUserInfo && store.getState().home.loggedUserInfo.id;
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchCategoriesList();
   }, [fetchCategoriesList]);
 
@@ -35,7 +35,7 @@ export default function CreatePost(props) {
     });
     const postInfo = {
       ...values,
-      creatorId: cookies.user,
+      creatorId: loggedId,
       numberOfPart: values.participants ? values.participants.length : 0,
       content: content2,
       endTime: values.endTime.format('x'),
@@ -45,7 +45,7 @@ export default function CreatePost(props) {
         const newPostId = res.data.ext.create.id;
         message.success('Créé avec succès! 😊');
         message
-          .info('Après 3s, il passera automatiquement à la page de sujet de Brainstorming.', 3)
+          .info('Après 2s, il passera automatiquement à la page de sujet de Brainstorming.', 2)
           .then(() => props.history.push(`/post/${newPostId}`));
       })
       .catch(() => {
@@ -133,19 +133,19 @@ export default function CreatePost(props) {
                 showSearch
                 allowClear
                 style={{ width: 200 }}
-                placeholder="Choose a theme"
+                placeholder="Choisir un thème"
                 optionFilterProp="children"
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
               >
                 {_.map((categoriesList || []), (k, v) => {
-                  return ( <Option value={v} key={v}>{k}</Option> );
+                  return (<Option value={v} key={v}>{k}</Option>);
                 })}
               </Select>
             </Form.Item>
             <Form.Item name="title">
-              <Input placeholder="Title" />
+              <Input placeholder="Titre" />
             </Form.Item>
             <Card title="Contenu" size="small" className="post-create-post-content">
               <Form.List name="content" rules={[{ validator: contentValidator }]}>
@@ -205,6 +205,7 @@ export default function CreatePost(props) {
                 disabledDate={disabledDate}
                 disabledTime={disabledDateTime}
                 showNow={false}
+                placeholder="Sélectionner une date"
               />
             </Form.Item>
             <Form.Item label="Permission d'accès" name="access" initialValue="public">
@@ -230,10 +231,10 @@ export default function CreatePost(props) {
                     })}
                   </Select>
                 ) : (
-                  <Typography.Text className="ant-form-text" type="secondary">
-                    ( <SmileOutlined /> Aucun utilisateur pour le moment. )
+                    <Typography.Text className="ant-form-text" type="secondary">
+                      ( <SmileOutlined /> Aucun utilisateur pour le moment. )
                   </Typography.Text>
-                )}
+                  )}
               </Form.Item>
             )}
             <Form.Item className="post-create-post-submit" wrapperCol={{ span: 24 }}>
