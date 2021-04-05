@@ -8,7 +8,7 @@ export default function CategoriesWidget() {
   const { categoriesList, fetchCategoriesList } = useFetchCategoriesList();
   const [ selectedKey, setSelectedKey] = useState(1);
 
-  const icons = ["👩🏻‍💻", "💻", "🐶", "🎨", "🪁", "📱", "🎳", "👗",
+  const icons = ["👩🏻‍💻", "🐶", "🎨", "🪁", "📱", "🎳", "👗",
     "🍔", "🎰", "👾", "🏥", "📗", "🎶", "📰", "🏝", "📸", "🌇", "🔬",
     "🏀", "👨‍🔧", "🧳", "🎮", "🎥", "✍️"];
 

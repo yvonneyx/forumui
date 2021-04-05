@@ -1,25 +1,11 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { Form, Input, Button, Checkbox, Card, Row, Col, notification } from 'antd';
+import { LoginOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { useLogin } from './redux/hooks';
 import { useCookies } from "react-cookie";
 import _ from 'lodash';
-
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
 
 export default function Login(props) {
   const { login } = useLogin();
@@ -40,6 +26,14 @@ export default function Login(props) {
           })
         }
       }
+    ).catch(
+      ()=>{
+        notification.error({
+            message: 'Échec de la connexion',
+            description:
+              'Impossible de se connecter pour le moment.'
+          })
+      }
     )
   };
 
@@ -49,13 +43,13 @@ export default function Login(props) {
 
   return (
     <Row className="home-login">
-      <Col span={12}>
-        <img src={require('../../images/illustration.svg')} alt="illustration" />
+      <Col span={15} className="home-login-illu">
+        <img src={require('../../images/illustration.png')} alt="illustration" />
       </Col>
-      <Col span={12}>
-        <Card title="S'identifier">
+      <Col span={9} className="home-login-body">
+          <div className="home-login-header">S'INDENTIFIER</div>
           <Form
-            {...layout}
+            layout="vertical"
             className="home-login-form"
             name="basic"
             initialValues={{
@@ -65,45 +59,26 @@ export default function Login(props) {
             onFinishFailed={onFinishFailed}
           >
             <Form.Item
-              label="E-mail"
               name="email"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your email!',
-                },
-              ]}
             >
-              <Input />
+              <Input className="custom-input" placeholder="E-mail" />
             </Form.Item>
 
             <Form.Item
-              label="Mot de passe"
               name="password"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your password!',
-                },
-              ]}
             >
-              <Input.Password />
+              <Input.Password className="custom-input" placeholder="Mot de passe"/>
             </Form.Item>
 
-            <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-              <Checkbox>Rester connecté</Checkbox>
-            </Form.Item>
-
-            <Form.Item {...tailLayout}>
+            <Form.Item >
               <Button type="primary" htmlType="submit" className="home-login-btn">
-                S'identifier
+                <LoginOutlined />S'identifier
               </Button>
             </Form.Item>
             <Link className="home-login-inscrire" to="/signup">
               Vous n'avez pas de compte? S'inscrire
             </Link>
           </Form>
-        </Card>
       </Col>
     </Row>
   );

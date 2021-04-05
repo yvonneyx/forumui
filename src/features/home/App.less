@@ -1,8 +1,26 @@
 @import '../../styles/mixins';
 
 .home-app {
+  position: relative;
+  height: 100%;
+  min-height: 100%;
+  
   .page-container {
     margin: 64px auto 0;
     max-width: 1256px;
+    padding-bottom: 80px;
+  }
+
+  .footer{
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: @darkblue;
+    color: white;
+    margin-top: 40px;
+    font-size: 12px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
   }
 }

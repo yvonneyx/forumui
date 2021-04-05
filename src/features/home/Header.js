@@ -26,7 +26,7 @@ export default function Header() {
   };
 
   const logout = () => {
-    removeCookie('user', loggedId);
+    removeCookie('user', loggedId, {path: "/"});
   }
 
   const menu = (
@@ -68,6 +68,7 @@ export default function Header() {
 
   return (
     <div className="home-header">
+    <div className="home-header-container">
       <div className="home-header-logo">
         <Link to="/accueil">
           <img src={require('../../images/logo.svg')} alt="logo" />
@@ -86,7 +87,7 @@ export default function Header() {
       ) : (
           <Space className="home-header-nav" size="1px">
             <Button icon={<MessageFilled />} type="text" />
-            <Button icon={<EditFilled />} type="text" href="new-post"/>
+            <Button icon={<EditFilled />} type="text" href="/new-post"/>
             <Divider type="vertical" />
             <Dropdown overlay={menu} trigger={['click']}>
               <div>
@@ -95,6 +96,7 @@ export default function Header() {
             </Dropdown>
           </Space>
         )}
+        </div>
     </div>
   );
 }

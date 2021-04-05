@@ -9,6 +9,7 @@ export default function App({ children }) {
     <div className="home-app">
       <Header />
       <div className="page-container">{children}</div>
+      <div className="footer">Made with ❤ by Tao & Xin</div>
     </div>
   );
 }
