@@ -6,12 +6,12 @@ import { Row, Col } from 'antd';
 export default function Accueil() {
   return (
     <div className="home-accueil">
-      {false && <div><ArticlesPopulaires />
+      <div>
+        <ArticlesPopulaires />
         <Row>
-          <Col span={18}><ArticlesListTab /></Col>
+          <Col span={18}><CategoriesWidget /></Col>
           <Col span={6}><ArticlesListTab /></Col>
-        </Row></div>}
-      <CategoriesWidget />
+        </Row></div>
     </div>
   );
 };

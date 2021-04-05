@@ -6,10 +6,6 @@ import {
   Typography,
   Avatar,
   Button,
-  Comment,
-  List,
-  Input,
-  Form,
   Tag,
   Spin,
   Popover,
@@ -21,19 +17,17 @@ import moment from 'moment';
 import 'moment/locale/fr'
 import { useFindPostById, useVote } from './redux/hooks';
 import store from '../../common/store';
-const { TextArea } = Input;
+import { CommentView } from './';
 
 export default function PostView({ match }) {
   const postId = match.params.id;
   const loggedId = parseInt(store.getState().home.loggedUserInfo && store.getState().home.loggedUserInfo.id);
   const [checkedValue, setCheckedValue] = useState(1);
-  const [comments, setComments] = useState([]);
-  const [submitting, setSubmitting] = useState(false);
-  const [value, setValue] = useState('');
   const [hasVoted, setHasVoted] = useState(false);
   const [answerDetail, setAnswerDetail] = useState([]);
   const { postDetail, findPostById, findPostByIdPending } = useFindPostById();
   const { vote, votePending } = useVote();
+  const loggedUserInfo = store.getState().home.loggedUserInfo;
 
   useEffect(() => {
     findPostById({ id: postId });
@@ -121,35 +115,6 @@ export default function PostView({ match }) {
     return vide;
   }
 
-  const handleSubmit = () => {
-    if (!value) {
-      return;
-    }
-    setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      setValue('');
-      setComments([
-        ...comments,
-        {
-          author: 'Han Solo',
-          avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-          content: <p>{value}</p>,
-          datetime: moment().fromNow(),
-        },
-      ]);
-    }, 1000);
-  };
-
-  const CommentList = ({ comments }) => (
-    <List
-      dataSource={comments}
-      header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
-      itemLayout="horizontal"
-      renderItem={props => <Comment {...props} />}
-    />
-  );
-
   return (
     <div className="post-post-view">
       <Spin spinning={findPostByIdPending}>
@@ -198,38 +163,7 @@ export default function PostView({ match }) {
             </Typography.Text>)}
         </Card>
         <Card className="post-post-view-comments">
-          {comments.length > 0 && <CommentList comments={comments} />}
-          <Comment
-            avatar={
-              <Avatar
-                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                alt="Han Solo"
-              />
-            }
-            content={
-              <div>
-                <Form.Item>
-                  <TextArea
-                    rows={4}
-                    onChange={e => {
-                      setValue(e.target.value);
-                    }}
-                    value={value}
-                  />
-                </Form.Item>
-                <Form.Item>
-                  <Button
-                    htmlType="submit"
-                    loading={submitting}
-                    onClick={handleSubmit}
-                    type="primary"
-                  >
-                    Add Comment
-                </Button>
-                </Form.Item>
-              </div>
-            }
-          />
+          {loggedUserInfo && <CommentView postId={postId} loggedUserInfo={loggedUserInfo}/>}
         </Card>
       </Spin>
     </div>

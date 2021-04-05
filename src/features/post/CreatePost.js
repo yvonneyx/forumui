@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
 import { Card, Form, Select, Button, Input, DatePicker, Typography, message, Spin } from 'antd';
-import { MinusCircleOutlined, PlusOutlined, SmileOutlined } from '@ant-design/icons';
+import { MinusCircleOutlined, PlusOutlined, SmileOutlined, SendOutlined } from '@ant-design/icons';
 import { useFetchUserList } from '../home/redux/hooks';
 import { useFetchCategoriesList } from '../common/redux/hooks';
 import { useCreatePost } from './redux/hooks';
@@ -132,7 +132,7 @@ export default function CreatePost(props) {
 
   return (
     <div className="post-create-post">
-      <Card className="layout-left" title="Créer un BrainStorming">
+      <Card className="layout-left" title="Créer un BrainStorming" bordered={false}>
         <Spin spinning={createPostPending}>
           <Form onFinish={onFinish} {...layout}>
             <Form.Item name="categoryId" rules={[{ validator: categoryValidator }]}>
@@ -246,7 +246,7 @@ export default function CreatePost(props) {
             )}
             <Form.Item className="post-create-post-submit" wrapperCol={{ span: 24 }}>
               <Button type="primary" htmlType="submit">
-                Publier
+                <SendOutlined />Publier
               </Button>
             </Form.Item>
           </Form>

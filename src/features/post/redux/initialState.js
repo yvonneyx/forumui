@@ -16,6 +16,10 @@ const initialState = {
   findPostsByCategoryError: null,
   findPostsByUserIdPending: false,
   findPostsByUserIdError: null,
+  createACommentPending: false,
+  createACommentError: null,
+  findCommentsByIdPending: false,
+  findCommentsByIdError: null,
 };
 
 export default initialState;
