@@ -1,4 +1,4 @@
-import React, { createElement, useEffect, useState } from 'react';
+import React, { createElement, useEffect, useState, useReducer } from 'react';
 // import PropTypes from 'prop-types';
 import { } from './redux/hooks';
 import {
@@ -23,17 +23,26 @@ import _ from 'lodash';
 import moment from 'moment';
 import { useCreateAComment, useFindCommentsById } from './redux/hooks';
 import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled } from '@ant-design/icons';
+import { NestedCommentsSection } from './';
+import useForceUpdate from 'use-force-update';
 
 const { TextArea } = Input;
 
 export default function CommentView(props) {
   const { postId, loggedUserInfo = {} } = props;
+  let rootId = null;
+
+  const [replyId, setReplyId] = useState('');
+  const [replyShow, setReplyShow] = useState(false);
+  const [newId, setNewId] = useState('');
   const [comments, setComments] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState(null);
+  const [commentBoxVisble, setCommentBoxVisble] = useState(false);
+
   const { createAComment, createACommentPending, createACommentError } = useCreateAComment();
   const { findCommentsById, findCommentsByIdPending, findCommentsByIdError, } = useFindCommentsById();
 
@@ -48,58 +57,16 @@ export default function CommentView(props) {
       author: loggedUserInfo.id,
       avatar: loggedUserInfo.avatarUrl || '',
       content: inputValue,
+      answerId: null,
     }).then(res => {
       const newCommentDetail = res.data.ext.create;
-      console.log(newCommentDetail);
       setSubmitting(false);
       setInputValue('');
-      setComments([...comments, {
-        author: 'unknown',
-        avatar: newCommentDetail.avatar,
-        content: newCommentDetail.content,
-        datetime: moment(newCommentDetail.date).locale('fr').fromNow(),
-      }]);
+      setNewId(newCommentDetail.id);
     }).catch(() => {
       message.error('Veuillez réessayer plus tard...😭');
     })
   }
-
-  const CommentList = ({ comments }) => (
-    <List
-      dataSource={comments}
-      header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
-      itemLayout="horizontal"
-      renderItem={props => <Comment {...props} actions={actions} />}
-    />
-  );
-
-  const like = () => {
-    setLikes(1);
-    setDislikes(0);
-    setAction('liked');
-  };
-
-  const dislike = () => {
-    setLikes(0);
-    setDislikes(1);
-    setAction('disliked');
-  };
-
-  const actions = [
-    <Tooltip key="comment-basic-like" title="Like">
-      <span onClick={like}>
-        {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
-        <span className="comment-action">{likes}</span>
-      </span>
-    </Tooltip>,
-    <Tooltip key="comment-basic-dislike" title="Dislike">
-      <span onClick={dislike}>
-        {React.createElement(action === 'disliked' ? DislikeFilled : DislikeOutlined)}
-        <span className="comment-action">{dislikes}</span>
-      </span>
-    </Tooltip>,
-    <span key="comment-basic-reply-to">Reply to</span>,
-  ];
 
   useEffect(() => {
     findCommentsById({ brainstormingId: postId }).then(res => {
@@ -112,7 +79,7 @@ export default function CommentView(props) {
       });
       setComments(existingCommentsFormat);
     });
-  }, [findCommentsById, postId])
+  }, [findCommentsById, postId, newId])
 
   const optimizeComments = comments => {
     return _.map(comments || [], comment => {
@@ -126,28 +93,28 @@ export default function CommentView(props) {
     })
   }
 
+  const Editor = (<div>
+    <Form.Item>
+      <TextArea rows={4} onChange={e => { setInputValue(e.target.value); }} value={inputValue} />
+    </Form.Item>
+    <Form.Item>
+      <Button
+        htmlType="submit"
+        loading={submitting}
+        onClick={handleCommentSubmit}
+        type="primary"
+      >
+        Ajouter un commentaire
+      </Button>
+    </Form.Item>
+  </div>);
+
   return (
     <div className="post-comment-view">
-      {comments.length > 0 && <CommentList comments={optimizeComments(comments)} />}
       <Comment avatar={<Avatar src={loggedUserInfo.avatarUrl} alt={loggedUserInfo.nickname} />}
-        content={
-          <div>
-            <Form.Item>
-              <TextArea rows={4} onChange={e => { setInputValue(e.target.value); }} value={inputValue} />
-            </Form.Item>
-            <Form.Item>
-              <Button
-                htmlType="submit"
-                loading={submitting}
-                onClick={handleCommentSubmit}
-                type="primary"
-              >
-                Ajouter un commentaire
-                </Button>
-            </Form.Item>
-          </div>
-        }
+        content={Editor}
       />
+      {comments.length > 0 && <NestedCommentsSection comments={optimizeComments(comments)} loggedUserInfo={loggedUserInfo} setNewId={setNewId}/>}
     </div>
   );
 };

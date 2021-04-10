@@ -1,26 +1,28 @@
 @import '../../styles/mixins';
 
-.post-comment-view {
-
-  .nested-reply{
-    margin-left: 40px;
-
-    .ant-comment-inner{
-      padding-top: 0px;
-    }
-  }
-
-}
-
-@import '../../styles/mixins';
-
 .post-nested-comments-section {
+
 
   &-header{
     padding-top: 12px;
     padding-bottom: 12px;
     border-bottom: 1px solid #f0f0f0;
     font-size: 16px;
+  }
+
+  &-tip{
+    text-align: center;
+    font-size: 12px;
+    color: @blue;
+  }
+
+  &-content{
+    max-height: 480px;
+    overflow: scroll;
+    background: linear-gradient(white 30%, transparent), radial-gradient(at 50% 0, rgba(0,0,0,.2),transparent 70%); 
+    background-repeat: no-repeat; 
+    background-size: 100% 50px, 100% 15px; 
+    background-attachment: local, scroll;
   }
 
   .comments-children{
@@ -30,7 +32,7 @@
   .comment {
     display: flex;
     padding: 8px 0;
-
+    
     &-avatar {
       position: relative;
       flex-shrink: 0;
@@ -102,8 +104,26 @@
         cursor: pointer;
       }
 
+      input{
+        border-radius: 10px 0 0 10px;
+        border-right: none;
+      }
+
+      input:hover{
+        border-color: @blue;
+      }
+
+      button{
+        border-radius: 0 10px 10px 0;
+      }
+
+      button:hover{
+        border-color: @blue;
+        color: @blue;
+        // border-left: 1px solid @blue;
+      }
+
     }
 
   }
 }
-
