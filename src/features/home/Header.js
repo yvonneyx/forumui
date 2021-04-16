@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import PropTypes from 'prop-types';
 // import {} from './redux/hooks';
 import { Link, Prompt } from 'react-router-dom';
@@ -12,14 +12,23 @@ import {
   LogoutOutlined,
   EditFilled,
 } from '@ant-design/icons';
-import { UserCard } from './';
+import { UserCard, HeaderSearchBox } from './';
 import { useCookies } from "react-cookie";
 import _ from 'lodash';
+import useDocumentScrollThrottled from '../common/UseDocumentScrollThrottled';
 
 export default function Header() {
   const [status, setStatus] = useState(true);
   const [cookies, setcookie, removeCookie] = useCookies(["user"]);
-  let loggedId = cookies.user;
+  const loggedId = cookies.user;
+
+  const [shouldShowShadow, setShouldShowShadow] = useState(false);
+  const shadowStyle = shouldShowShadow ? 'shadow' : '';
+
+  useDocumentScrollThrottled(callbackData => {
+    const { currentScrollTop } = callbackData;
+    setShouldShowShadow(currentScrollTop > 2);
+  });
 
   const onChange = checked => {
     setStatus(checked);
@@ -67,7 +76,7 @@ export default function Header() {
   );
 
   return (
-    <div className="home-header">
+    <div className={`home-header home-header-${shadowStyle}`}>
     <div className="home-header-container">
       <div className="home-header-logo">
         <Link to="/accueil">
