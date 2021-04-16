@@ -61,6 +61,7 @@
     "react-cookie": "^4.0.3",
     "react-dev-utils": "^7.0.1",
     "react-dom": "^16.8.6",
+    "react-highlight-words": "^0.17.0",
     "react-hot-loader": "^4.12.12",
     "react-recaptcha": "^2.3.10",
     "react-redux": "^7.1.1",
