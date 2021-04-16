@@ -12,3 +12,4 @@ export { default as ThemeSelection } from './ThemeSelection';
 export { default as SignupSuccess } from './SignupSuccess';
 export { default as Profile } from './Profile';
 export { default as CategoriesWidget } from './CategoriesWidget';
+export { default as HeaderSearchBox } from './HeaderSearchBox';

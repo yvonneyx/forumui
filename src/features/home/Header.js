@@ -105,6 +105,7 @@ export default function Header() {
             </Dropdown>
           </Space>
         )}
+        <div className="home-header-search"><HeaderSearchBox /></div>
         </div>
     </div>
   );
