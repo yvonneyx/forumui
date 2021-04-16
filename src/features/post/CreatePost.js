@@ -132,7 +132,8 @@ export default function CreatePost(props) {
 
   return (
     <div className="post-create-post">
-      <Card className="layout-left" title="Créer un BrainStorming" bordered={false}>
+      <div className="layout-left" bordered={false}>
+        <h2 className="post-create-post-title">Créer un brainstorming</h2>
         <Spin spinning={createPostPending}>
           <Form onFinish={onFinish} {...layout}>
             <Form.Item name="categoryId" rules={[{ validator: categoryValidator }]}>
@@ -251,7 +252,7 @@ export default function CreatePost(props) {
             </Form.Item>
           </Form>
         </Spin>
-      </Card>
+      </div>
       <div className="layout-right"><PostsListByUser loggedId={loggedId} hasNew={hasNew}/></div>
     </div>
   );
