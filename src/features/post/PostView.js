@@ -117,6 +117,9 @@ export default function PostView({ match }) {
 
   return (
     <div className="post-post-view">
+      <div class="shape circle"></div>
+      <div class="shape rectangle"></div>
+      <div class="shape triangle"></div>
       <Spin spinning={findPostByIdPending}>
         {!_.isEmpty(postDetail) && <Spin spinning={votePending}><Card>
           <h2>
@@ -163,7 +166,7 @@ export default function PostView({ match }) {
             </Typography.Text>)}
         </Card>
         <Card className="post-post-view-comments">
-          {loggedUserInfo && <CommentView postId={postId} loggedUserInfo={loggedUserInfo}/>}
+          {loggedUserInfo && <CommentView postId={postId} loggedUserInfo={loggedUserInfo} />}
         </Card>
       </Spin>
     </div>

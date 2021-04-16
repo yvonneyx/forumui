@@ -44,7 +44,7 @@ export default function Login(props) {
   return (
     <Row className="home-login">
       <Col span={15} className="home-login-illu">
-        <img src={require('../../images/illustration.png')} alt="illustration" />
+        <img src={require('../../images/bg1.svg')} alt="illustration" />
       </Col>
       <Col span={9} className="home-login-body">
           <div className="home-login-header">S'INDENTIFIER</div>

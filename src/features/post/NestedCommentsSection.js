@@ -68,7 +68,7 @@ export default function NestedCommentsSection(props) {
         <Avatar className="comment-avatar" src={comment.avatar} />
         <div className="comment-content">
           <div className="comment-content-author">
-            <div className="comment-content-author-nickname">{comment.author}</div>
+            <div className="comment-content-author-nickname">{comment.nickname}</div>
             <div className="comment-content-author-datetime">{moment(comment.date).fromNow()}</div>
           </div>
           <div className="comment-content-detail">{comment.content}</div>
