@@ -64,9 +64,9 @@ export default function Header() {
         <Menu.Item key="profile" icon={<ProfileOutlined />}>
           <a className="profile-link" href="/setting-profile">Profil</a>
         </Menu.Item>
-        <Menu.Item key="setting" icon={<SettingOutlined />}>
+        {false && <Menu.Item key="setting" icon={<SettingOutlined />}>
           Paramètres utilisateur
-        </Menu.Item>
+        </Menu.Item>}
       </Menu.ItemGroup>
       <Menu.Divider />
       <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={logout}>

@@ -127,7 +127,8 @@ export default function Profile() {
   };
 
   return (
-    <Card className="home-profile" title="Mon profile">
+    <div className="home-profile" >
+      <div className="home-profile-title">Mon profile</div>
       <Form
         form={form}
         onFinish={onFinish}
@@ -135,7 +136,7 @@ export default function Profile() {
         className="home-profile-form"
         validateTrigger="onBlur"
       >
-        <Divider orientation="left">INFORMATIONS SUR LE PROFIL</Divider>
+        <Divider orientation="left">Informations sur le profile</Divider>
         <Form.Item
           label="E-mail"
           tooltip="L'adresse email est utilisée comme identifiant unique de l'utilisateur, la modification est interdite
@@ -257,7 +258,7 @@ export default function Profile() {
         >
           <TextArea rows={4} showCount maxLength={200} />
         </Form.Item>
-        <Divider orientation="left">IMAGE</Divider>
+        <Divider orientation="left">Image</Divider>
         <Form.Item
           name="avatar"
           label="Avatar"
@@ -285,7 +286,7 @@ export default function Profile() {
           </Button>
         </Form.Item>
       </Form>
-    </Card>
+    </div>
   );
 }
 

@@ -78,7 +78,7 @@ export default function Signup() {
 
   return (
     <div className="home-signup">
-      <Card title="S'inscrire">
+      <div className="home-signup-title">S'inscrire</div>
         <Steps current={current}>
           {steps.map(item => (
             <Step key={item.title} title={item.title} />
@@ -100,7 +100,6 @@ export default function Signup() {
             </Button>
           )}
         </div>
-      </Card>
     </div>
   );
 }
