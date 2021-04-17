@@ -8,7 +8,7 @@ export default function Accueil(props) {
     <div className="home-accueil">
         <ArticlesPopulaires props={props} />
         <Row>
-          <Col span={18}><CategoriesWidget /></Col>
+          <Col span={18} className="col"><CategoriesWidget /></Col>
           <Col span={6}><div className="green"></div></Col>
         </Row>
     </div>

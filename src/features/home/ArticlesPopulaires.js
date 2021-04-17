@@ -41,7 +41,7 @@ export default function ArticlesPopulaires({ props }) {
     },
     {
       id: 'xxx',
-      title: 'Lorem Ipsum',
+      title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce non libero venenatis, sodales metus a, dapibus dui.',
       author: 'Lorem Ipsum',
       category: 'Lorem Ipsum',
     },
