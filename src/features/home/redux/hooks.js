@@ -4,3 +4,4 @@ export { useLogin } from './login';
 export { useFindOneById } from './findOneById';
 export { useUploadAvatar } from './uploadAvatar';
 export { useModifyOneById } from './modifyOneById';
+export { useQuery } from './query';

@@ -14,6 +14,8 @@ const initialState = {
   uploadAvatarError: null,
   modifyOneByIdPending: false,
   modifyOneByIdError: null,
+  queryPending: false,
+  queryError: null,
 };
 
 export default initialState;

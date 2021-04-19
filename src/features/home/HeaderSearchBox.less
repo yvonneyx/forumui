@@ -1,30 +1,32 @@
 @import '../../styles/mixins';
 
 .home-header-search-box {
-   text-align: center;
+  text-align: center;
+  font-family: googleSans-regular;
 
-  .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+  .ant-select:not(.ant-select-customize-input) .ant-select-selector {
     border-radius: 20px;
     width: 305px;
-    background-color: #EBEDF0;
+    background-color: #ebedf0;
     color: @darkblue;
     text-align: left;
     border: 1px transparent solid;
-    &:hover{
+    &:hover {
       border: 1px @blue solid;
     }
     padding-left: 32px;
   }
 
-  .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input)
+    .ant-select-selector {
     border: 1px @blue solid;
   }
 
-  .ant-select-selection-search{
+  .ant-select-selection-search {
     padding-left: 20px;
   }
 
-  .ant-select-arrow{
+  .ant-select-arrow {
     position: absolute;
     top: 50%;
     left: 11px;
@@ -36,22 +38,78 @@
     font-weight: 600;
   }
 
-  &-option{
+  &-option {
     color: @darkblue;
     display: inline-block;
     width: 100%;
 
-    &:hover{
+    &:hover {
       color: @darkblue;
     }
   }
 }
 
-.match-option-highlight{
-    color: @darkblue;
-    background-color: @lightblue;
-    font-weight: 600;
-    padding: 0;
-    margin: 0;
+.match-option-highlight {
+  color: #007a67;
+  background-color: #d1e6e7;
+  border-radius: 5px;
+  font-weight: 600;
+  padding: 0;
+  margin: 0;
+}
+
+.searchOverlay {
+  position: fixed;
+
+  .ant-dropdown-menu {
+    max-width: 308px;
+    padding: 0px 0;
+    max-height: 480px;
+    overflow: auto;
+    border-radius: 8px;
   }
-  
+}
+.menu-content {
+  line-height: 15px;
+  margin: 0;
+  padding: 0;
+  color: #8291a9;
+  font-size: 12px;
+}
+
+.menu-tip {
+  font-size: 12px;
+  color: #8291a9;
+  margin: 0;
+  padding: 0;
+
+  &-found {
+    display: inline-block;
+    color: #5a68df;
+    font-weight: 600;
+  }
+}
+
+.ant-dropdown-menu-item,
+.ant-dropdown-menu-submenu-title {
+  white-space: pre-wrap;
+}
+
+.option-title {
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
+  font-size: 14px;
+}
+
+.highlight {
+  font-weight: 600;
+  color: #007a67;
+  background-color: #d1e6e7;
+  border-radius: 5px;
+}
+
+.option-subtitle {
+  margin: 0;
+  padding: 0;
+}
