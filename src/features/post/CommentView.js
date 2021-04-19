@@ -114,7 +114,7 @@ export default function CommentView(props) {
       <Comment avatar={<Avatar src={loggedUserInfo.avatarUrl} alt={loggedUserInfo.nickname} />}
         content={Editor}
       />
-      {comments.length > 0 && <NestedCommentsSection comments={optimizeComments(comments)} loggedUserInfo={loggedUserInfo} setNewId={setNewId}/>}
+      {comments.length > 0 && <NestedCommentsSection parentComments={optimizeComments(comments)} loggedUserInfo={loggedUserInfo} setNewId={setNewId}/>}
     </div>
   );
 };

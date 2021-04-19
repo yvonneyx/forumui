@@ -20,6 +20,8 @@ const initialState = {
   createACommentError: null,
   findCommentsByIdPending: false,
   findCommentsByIdError: null,
+  likeCommentPending: false,
+  likeCommentError: null,
 };
 
 export default initialState;

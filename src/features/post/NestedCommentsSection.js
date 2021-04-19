@@ -1,20 +1,69 @@
-import React, { useEffect, createElement, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Avatar, Tooltip, Comment, Button, Form, message, Input, Divider } from 'antd';
-import { DownOutlined, DownCircleOutlined } from '@ant-design/icons';
-import { useCreateAComment, useFindCommentsById } from './redux/hooks';
+import { Avatar, Button, message, Input } from 'antd';
+import { DownCircleOutlined, DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled  } from '@ant-design/icons';
+import { useCreateAComment, useLikeComment } from './redux/hooks';
 import _ from 'lodash';
 
 export default function NestedCommentsSection(props) {
-  const { loggedUserInfo = {}, comments } = props;
+  const { loggedUserInfo = {}, parentComments } = props;
   const postId = !_.isEmpty(comments) && _.first(comments).brainstormingId;
   let rootId = null;
 
+  const [comments, setComments] = useState([]);
   const [replyIds, setReplyIds] = useState([]);
-  const [submitting, setSubmitting] = useState(false);
   const [inputValues, setInputValues] = useState({});
-  const { createAComment, createACommentPending, createACommentError } = useCreateAComment();
+  const { createAComment, createACommentPending } = useCreateAComment();
+  const { likeComment } = useLikeComment();
+
+  useEffect(()=>{
+    setComments(parentComments)
+  },[parentComments]);
+
+  const likeCommentAction = comment => {
+    likeComment({
+      id: comment.id,
+      like: !_.includes(comment.likePersons, loggedUserInfo.id) ? 1 : -1,
+      dislike: 0,
+      answerPeopleId: loggedUserInfo.id,
+    }).then(()=>{
+      let newComments = _.map(comments, c=>{
+        if(c.id === comment.id){
+          if(_.includes(c.likePersons, loggedUserInfo.id)){
+            return {...c, like: --c.like, likePersons: _.pull(c.likePersons, loggedUserInfo.id)}
+          }else{
+            return {...c, like: ++c.like, likePersons: _.concat(c.likePersons, loggedUserInfo.id)}
+          }
+        }else{
+          return {...c}
+        }
+      })
+      setComments([...newComments]);
+    });
+  }
+    
+  const dislikeCommentAction = (comment) => {
+    likeComment({
+      id: comment.id,
+      like: 0,
+      dislike: !_.includes(comment.dislikePersons, loggedUserInfo.id) ? 1 : -1,
+      answerPeopleId: loggedUserInfo.id,
+    }).then(()=>{
+      let newComments = _.map(comments, c=>{
+        if(c.id === comment.id){
+          if(_.includes(c.dislikePersons, loggedUserInfo.id)){
+            return {...c, dislike: --c.dislike, dislikePersons: _.pull(c.dislikePersons, loggedUserInfo.id)}
+          }else{
+            return {...c, dislike: ++c.dislike, dislikePersons: _.concat(c.dislikePersons, loggedUserInfo.id)}
+          }
+        }else{
+          return {...c}
+        }
+      })
+      setComments([...newComments]);
+    });
+  }
 
   const switchReplyView = comment => {
     if (!_.includes(replyIds, comment.id)) {
@@ -54,7 +103,7 @@ export default function NestedCommentsSection(props) {
 
   const replyEditor = comment => {
     const { id } = comment;
-    return <div className="comment-reply" key={`reply_${id}`}>
+    return <div className="comment-reply" key={`reply_${id}`} spin={createACommentPending}>
       <Avatar className="comment-reply-avatar" src={loggedUserInfo.avatarUrl} alt={loggedUserInfo.nickname} />
       <Input onPressEnter={e => { onReplyInputChange(e, id) }} onBlur={e => { onReplyInputChange(e, id) }} defaultValue={inputValues[id]} />
       <Button onClick={() => { handleReplySubmit(comment) }}>Répondre</Button>
@@ -63,19 +112,35 @@ export default function NestedCommentsSection(props) {
 
   const CustomizedComment = (props) => {
     const { comment } = props;
-    return <>
-      <div className="comment" key={`comment_${comment.id}`}>
-        <Avatar className="comment-avatar" src={comment.avatar} />
-        <div className="comment-content">
-          <div className="comment-content-author">
-            <div className="comment-content-author-nickname">{comment.nickname}</div>
-            <div className="comment-content-author-datetime">{moment(comment.date).fromNow()}</div>
+    let loggedId = loggedUserInfo.id;
+    return (
+      <>
+        <div className="comment" key={`comment_${comment.id}`}>
+          <Avatar className="comment-avatar" src={comment.avatar} />
+          <div className="comment-content">
+            <div className="comment-content-author">
+              <div className="comment-content-author-nickname">{comment.nickname}</div>
+              <div className="comment-content-author-datetime">
+                {moment(comment.date).fromNow()}
+              </div>
+            </div>
+            <div className="comment-content-detail">{comment.content}</div>
+            <div className="comment-content-actions">
+              <div onClick={()=> likeCommentAction(comment) }>
+                {!_.includes(comment.likePersons, loggedId) ? <LikeOutlined /> : <LikeFilled />}
+                <span className="comment-content-actions-nb">{comment.like}</span>
+              </div>
+              <div onClick={()=> dislikeCommentAction(comment) }>
+                {!_.includes(comment.dislikePersons, loggedId) ? <DislikeOutlined /> : <DislikeFilled />}
+                <span className="comment-content-actions-nb">{comment.dislike}</span>
+              </div>
+              <div onClick={() => switchReplyView(comment)}>Reply to</div>
+            </div>
           </div>
-          <div className="comment-content-detail">{comment.content}</div>
-          <div className="comment-content-actions"><div onClick={() => switchReplyView(comment)}>Reply to</div></div>
         </div>
-      </div>
-      {_.includes(replyIds, comment.id) && replyEditor(comment)}</>
+        {_.includes(replyIds, comment.id) && replyEditor(comment)}
+      </>
+    );
   }
 
   const Comments = (props) => {

@@ -76,17 +76,22 @@
         margin-bottom: inherit;
         padding-left: 0;
 
-        div {
+        > div {
           display: inline-block;
           color: rgba(0, 0, 0, 0.45);
           font-size: 12px;
-          margin-right: 10px;
+          margin-right: 12px;
           transition: color 0.3s;
         }
 
-        div:hover {
+        > div:hover {
           cursor: pointer;
           color: rgba(0, 0, 0, 0.6);
+        }
+
+        &-nb{
+          display: inline-block;
+          margin-left: 4px;
         }
 
       }

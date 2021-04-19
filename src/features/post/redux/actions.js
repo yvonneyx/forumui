@@ -5,3 +5,4 @@ export { findPostsByCategory, dismissFindPostsByCategoryError } from './findPost
 export { findPostsByUserId, dismissFindPostsByUserIdError } from './findPostsByUserId';
 export { createAComment, dismissCreateACommentError } from './createAComment';
 export { findCommentsById, dismissFindCommentsByIdError } from './findCommentsById';
+export { likeComment, dismissLikeCommentError } from './likeComment';
