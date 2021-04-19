@@ -62,54 +62,63 @@
   position: fixed;
 
   .ant-dropdown-menu {
-    max-width: 308px;
+    max-width: 368px;
     padding: 0px 0;
     max-height: 480px;
     overflow: auto;
     border-radius: 8px;
   }
-}
-.menu-content {
-  line-height: 15px;
-  margin: 0;
-  padding: 0;
-  color: #8291a9;
-  font-size: 12px;
-}
 
-.menu-tip {
-  font-size: 12px;
-  color: #8291a9;
-  margin: 0;
-  padding: 0;
-
-  &-found {
-    display: inline-block;
-    color: #5a68df;
-    font-weight: 600;
+  .ant-dropdown-menu-item,
+  .ant-dropdown-menu-submenu-title {
+    white-space: pre-wrap;
   }
+  
+  .menu-item{
+    margin: 5px 5px 5px 8px;
+    border-left: 3px solid #ddd;
+
+    &:hover{
+      border-radius: 8px;
+    }
+  }
+
+  .option-title {
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
+    font-size: 14px;
+  }
+
+  .option-content {
+    line-height: 15px;
+    margin: 0;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+  }
+
+  .option-tip {
+    font-size: 12px;
+    color: #8291a9;
+    margin: 0;
+    padding: 0;
+  
+    &-found {
+      display: inline-block;
+      color: #5a68df;
+      font-weight: 600;
+    }
+  }
+
+  
+  .highlight {
+    font-weight: 600;
+    color: #007a67;
+    background-color: #d1e6e7;
+    border-radius: 5px;
+  }
+  
 }
 
-.ant-dropdown-menu-item,
-.ant-dropdown-menu-submenu-title {
-  white-space: pre-wrap;
-}
 
-.option-title {
-  word-wrap: break-word;
-  word-break: break-all;
-  overflow: hidden;
-  font-size: 14px;
-}
-
-.highlight {
-  font-weight: 600;
-  color: #007a67;
-  background-color: #d1e6e7;
-  border-radius: 5px;
-}
-
-.option-subtitle {
-  margin: 0;
-  padding: 0;
-}

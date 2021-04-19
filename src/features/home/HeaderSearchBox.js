@@ -43,66 +43,51 @@ export default function HeaderSearchBox() {
     return (
       <Menu>
         {_.map(options, option => {
-          if (!_.has(option, 'brainstorming_id')) {
-            if (option.found == 'title') {
-              return (
-                <Menu.Item>
-                  <a href={`/post/${option.id}`}>
-                    <div>
-                      <Highlighter
-                        className="option-title"
-                        highlightClassName="match-option-highlight"
-                        searchWords={_.split(searchKey, ' ')}
-                        autoEscape={true}
-                        textToHighlight={option.title}
-                      />
-                      <div className="menu-tip">
-                        Trouvé dans <div className="menu-tip-found">{terme[option.found]}</div>
-                      </div>
-                    </div>
-                  </a>
-                </Menu.Item>
-              );
-            } else {
-              return (
-                <Menu.Item>
-                  <a href={`/post/${option.id}`}>
-                    <div>
-                      <Highlighter
-                        className="option-title"
-                        highlightClassName="match-option-highlight"
-                        searchWords={_.split(searchKey, ' ')}
-                        autoEscape={true}
-                        textToHighlight={option.title}
-                      />
-                      <div
-                        className="menu-content"
-                        dangerouslySetInnerHTML={{ __html: innerHTML(option.found_value) }}
-                      />
-                      <div className="menu-tip">
-                        Trouvé dans <div className="menu-tip-found">{terme[option.found]}</div>
-                      </div>
-                    </div>
-                  </a>
-                </Menu.Item>
-              );
-            }
-          } else {
+          if (option.type === 'brainstorming' && option.found == 'title') {
             return (
-              <Menu.Item>
+              <Menu.Item className="menu-item">
                 <a href={`/post/${option.id}`}>
                   <div>
-                    <div className="option-title">{option.title}</div>
-                    <br />
-                    <div className="menu-tip">
-                      Trouvé dans{' '}
-                      <div className="menu-tip-found">{terme[`comment-${option.found}`]}</div>
-                      &nbsp;[
-                      <div
-                        dangerouslySetInnerHTML={{ __html: innerHTML(option.found_value) }}
-                      ></div>
-                      ]
+                    <Highlighter
+                      className="option-title"
+                      highlightClassName="match-option-highlight"
+                      searchWords={_.split(searchKey, ' ')}
+                      autoEscape={true}
+                      textToHighlight={option.title}
+                    />
+                    <div className="option-tip">
+                      Trouvé dans <div className="option-tip-found">{terme[option.found]}</div>
                     </div>
+                  </div>
+                </a>
+              </Menu.Item>
+            );
+          } else {
+            return (
+              <Menu.Item className="menu-item">
+                <a href={`/post/${option.id}`}>
+                  <div>
+                    <Highlighter
+                      className="option-title"
+                      highlightClassName="match-option-highlight"
+                      searchWords={_.split(searchKey, ' ')}
+                      autoEscape={true}
+                      textToHighlight={option.title}
+                    />
+                    <div
+                      className="option-content"
+                      dangerouslySetInnerHTML={{ __html: innerHTML(option.found_value) }}
+                    />
+                    {option.type === 'brainstorming' ? (
+                      <div className="option-tip">
+                        Trouvé dans <div className="option-tip-found">{terme[option.found]}</div>
+                      </div>
+                    ) : (
+                      <div className="option-tip">
+                        Trouvé dans{' '}
+                        <div className="option-tip-found">{terme[`comment-${option.found}`]}</div>
+                      </div>
+                    )}
                   </div>
                 </a>
               </Menu.Item>
@@ -136,7 +121,7 @@ export default function HeaderSearchBox() {
       <Dropdown
         overlayClassName="searchOverlay"
         overlay={menu}
-        placement="bottomLeft"
+        placement="bottomCenter"
         visible={dropdownVisible}
       >
         <Select
