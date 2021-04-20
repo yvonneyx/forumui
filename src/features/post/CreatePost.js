@@ -11,6 +11,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import { PostsListByUser } from './';
 
+const { TextArea } = Input;
 const { Option } = Select;
 
 const layout = {
@@ -154,6 +155,9 @@ export default function CreatePost(props) {
             </Form.Item>
             <Form.Item name="title">
               <Input placeholder="Titre" />
+            </Form.Item>
+            <Form.Item name="description">
+              <TextArea placeholder="Décrivez votre brainstorming...(facultatif)" />
             </Form.Item>
             <Card title="Contenu" size="small" className="post-create-post-content">
               <Form.List name="content" rules={[{ validator: contentValidator }]}>

@@ -127,13 +127,14 @@ export default function PostView({ match }) {
             {accessTag(postDetail.access)}
             {isActive(postDetail.endTime)}
           </h2>
+          {!_.isEmpty(postDetail.description) && <div className="post-post-view-description">{postDetail.description}</div>}
           <div className="post-post-view-contents">
             {!_.isEmpty(postDetail.content) ?
               (<div>
                 <Radio.Group onChange={onRadioChange} value={checkedValue}>
                   {_.map(_.keys(postDetail.content), key => {
                     return (
-                      <Radio className="post-post-view-content" value={key} disabled={!isActiveAndCanVote(postDetail)}>
+                      <Radio className="post-post-view-content" value={key} key={key} disabled={!isActiveAndCanVote(postDetail)}>
                         {postDetail.content[key]}
                       </Radio>
                     );
