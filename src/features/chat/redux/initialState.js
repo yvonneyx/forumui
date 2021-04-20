@@ -6,6 +6,14 @@
 
 // NOTE: initialState constant is necessary so that Rekit could auto add initial state when creating async actions.
 const initialState = {
+  getPendingFriendsListPending: false,
+  getPendingFriendsListError: null,
+  removeInvitationPending: false,
+  removeInvitationError: null,
+  acceptInvitationPending: false,
+  acceptInvitationError: null,
+  getFriendsListPending: false,
+  getFriendsListError: null,
 };
 
 export default initialState;

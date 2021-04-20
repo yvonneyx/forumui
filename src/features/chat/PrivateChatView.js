@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { ChatWidget } from './';
+import { ChatWidget, ContactsList } from './';
 import { ChatList } from 'react-chat-elements';
-import { Row, Col, Divider, message } from 'antd';
+import { Row, Col, Divider, message, Input } from 'antd';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
-import { withCookies, Cookies } from "react-cookie";
-import { instanceOf } from "prop-types";
+import { withCookies, Cookies } from 'react-cookie';
+import { instanceOf } from 'prop-types';
+import { LeftOutlined, ContactsOutlined, WechatOutlined, SearchOutlined } from '@ant-design/icons';
+
+const { Search } = Input;
 
 class PrivateChatView extends Component {
   static propTypes = {
@@ -14,7 +17,8 @@ class PrivateChatView extends Component {
   state = {
     userList: [],
     clickUser: null,
-    userID: this.props.cookies.get("user") || "",
+    userID: this.props.cookies.get('user') || '',
+    selectedKey: 'contacts',
   };
 
   ws = new W3CWebSocket(`ws://192.168.1.76:8089/imserver/${this.state.userID}`);
@@ -29,7 +33,7 @@ class PrivateChatView extends Component {
     this.ws.onmessage = message => {
       const dataFormServer = JSON.parse(message.data);
       console.log('[parent]got reply!', dataFormServer);
-    }
+    };
 
     // this.ws.onclose = () => {
     //   console.log('Disconnected.');
@@ -64,11 +68,40 @@ class PrivateChatView extends Component {
         <Divider orientation="left">Liste de messages</Divider>
         <Row className="chat-body">
           <Col className="chat-list-column" span={7}>
-            <ChatList
+            <div className="chat-list-column-title">
+              <LeftOutlined className="chat-list-column-title-icon" />
+              Chat
+            </div>
+            <Input className="chat-list-column-search" placeholder="Recherche" onSearch={(e) => { console.log(e) }} suffix={<SearchOutlined />} />
+            <div className="chat-list-column-tabs">
+              <div
+                className={`chat-list-column-tab chat-list-column-tab${
+                  this.state.selectedKey === 'chats' ? '-selected' : '-unselected'
+                  }`}
+                onClick={() => {
+                  this.setState({ selectedKey: 'chats' });
+                }}
+              >
+                <WechatOutlined />
+                Chats
+              </div>
+              <div
+                className={`chat-list-column-tab chat-list-column-tab${
+                  this.state.selectedKey === 'contacts' ? '-selected' : '-unselected'
+                  }`}
+                onClick={() => {
+                  this.setState({ selectedKey: 'contacts' });
+                }}
+              >
+                <ContactsOutlined />
+                Contacts
+              </div>
+            </div>
+            {this.state.selectedKey === 'chats' ? <ChatList
               className="chat-list"
               onClick={e => this.setState({ clickUser: e })}
               dataSource={this.state.userList}
-            />
+            /> : <ContactsList />}
           </Col>
           <Col span={17}>
             {this.state.userList.length === 0 ? (
@@ -77,7 +110,11 @@ class PrivateChatView extends Component {
                 ci-dessous ou à partir du profil de quelqu'un
               </div>
             ) : (
-                <ChatWidget receiver={this.state.clickUser} websocket={this.ws} senderId={this.state.userID}/>
+                <ChatWidget
+                  receiver={this.state.clickUser}
+                  websocket={this.ws}
+                  senderId={this.state.userID}
+                />
               )}
           </Col>
         </Row>

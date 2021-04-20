@@ -4,9 +4,8 @@
   position: relative;
   height: 100%;
   background-color: #EDEFF4;
-  margin: 2px 5px;
-  border-radius: 15px;
-  font-family: googleSans-regular;
+  // margin: 5px 5px;
+  border-radius: 13px;
 
   &-title {
     padding: 0 32px;
@@ -17,7 +16,7 @@
     // align-items: center;
     // transition: all .3s;
     // justify-content: space-between;
-  border-radius: 15px 15px 0 0;
+  border-radius: 13px 13px 0 0;
     border-bottom: 1px solid #dadada;
     font-size: 18px;
     font-weight: 500;
@@ -67,40 +66,54 @@
   &-sendbox {
     padding: 2px 5px;
     width: 100%;
-    height: 60px;
+    // height: 60px;
     line-height: 60px;
-
+    // transition: all 250ms cubic-bezier(.02, .01, .47, 1);
+    // border-radius: 10px;
+    // box-shadow: 0 3px 12px -6px rgba(0, 0, 0, 0.54);
+    // background: #fff;
+    position: relative;
+    border-radius: 0 0 13px 13px;
+    
     &-body {
       display: inline-block;
-      width: 85%;
+      width: 94%;
+      border: none;
+      margin: 0 3% 16px;
 
       .ant-input {
+        padding-right: 75px; 
         height: 60px;
-        min-height: 60px;
-        max-height: 60px;
-        // border-radius: 15px 0 0 15px;
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0 3px 12px -6px rgba(0, 0, 0, 0.54);
+        background: #fff;
+        transition: all 250ms cubic-bezier(.02, .01, .47, 1);
       }
     }
 
     &-btn {
       display: inline-block;
-      width: 15%;
+      position: absolute;
+      right: 33px;
+      top: 15px;
+      height: 40px;
 
-      button {
-        border-radius:  12px;
-        height: 55px;
-        line-height: 55px;
-        width: 55px;
+        border-radius:  10px;
+        // line-height: 32px;
+        width: 40px;
         background: #00A389;
 
         svg{
-          font-size: 22px;
+          font-size: 16px;
+          transform: rotate(-41deg);
+          // font-weight: 900;
         }
+
         &:hover{
-          background-color: #E0F4F1;
-          color: #00A389;
+          background-color: #08C3A6;
+          border:none;
         }
-      }
 
     }
   }

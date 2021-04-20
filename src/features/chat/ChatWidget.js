@@ -35,7 +35,7 @@ export default class ChatWidget extends Component {
       const dataFormServer = JSON.parse(message.data).returnObject[0];
       console.log('got reply!', dataFormServer);
       if (
-        dataFormServer.type === 'message' &&
+        dataFormServer.type === 'MESSAGE_UNREAD' &&
         parseInt(dataFormServer.fromUserId) !== dataFormServer.toUserId
       ) {
         let idxFromAck = this.connectNumbers(dataFormServer.fromUserId, dataFormServer.toUserId);
@@ -66,29 +66,31 @@ export default class ChatWidget extends Component {
   }
 
   clickButton = () => {
-    this.props.websocket.send(
-      JSON.stringify({
-        type: 'message',
-        contentText: this.state.sendMsg,
-        toUserId: this.props.receiver.id,
-      }),
-    );
-    let messages = this.state.msgDataList[this.state.idx] || [];
-    this.setState({
-      msgDataList: {
-        ...this.state.msgDataList,
-        [this.state.idx]: [
-          ...messages,
-          {
-            position: 'right',
-            type: 'text',
-            text: this.state.sendMsg,
-            date: new Date(),
-          },
-        ],
-      },
-    });
-    this.setState({ sendMsg: '' });
+    if (!_.isEmpty(this.state.sendMsg)) {
+      this.props.websocket.send(
+        JSON.stringify({
+          type: 'message',
+          contentText: this.state.sendMsg,
+          toUserId: this.props.receiver.id,
+        }),
+      );
+      let messages = this.state.msgDataList[this.state.idx] || [];
+      this.setState({
+        msgDataList: {
+          ...this.state.msgDataList,
+          [this.state.idx]: [
+            ...messages,
+            {
+              position: 'right',
+              type: 'text',
+              text: this.state.sendMsg,
+              date: new Date(),
+            },
+          ],
+        },
+      });
+      this.setState({ sendMsg: '' });
+    }
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -99,24 +101,24 @@ export default class ChatWidget extends Component {
     console.log(this.state.msgDataList, this.state.idx);
     return (
       <Layout className="chat-chat-widget">
-          <Header className="chat-chat-widget-title">
-            {this.state.receiver == null ? '' : this.state.receiver.title}
-          </Header>
-          <Content
-            className="chat-chat-widget-box"
-            ref={el => {
-              this.messagesEnd = el;
-            }}
-          >
-            <MessageList
-              className="message-list"
-              dataSource={this.state.msgDataList[this.state.idx]}
-            />
-          </Content>
+        <Header className="chat-chat-widget-title">
+          {this.state.receiver == null ? '' : this.state.receiver.title}
+        </Header>
+        <Content
+          className="chat-chat-widget-box"
+          ref={el => {
+            this.messagesEnd = el;
+          }}
+        >
+          <MessageList
+            className="message-list"
+            dataSource={this.state.msgDataList[this.state.idx]}
+          />
+        </Content>
         <Footer className="chat-chat-widget-sendbox">
           <div className="chat-chat-widget-sendbox-body">
             <TextArea
-              autoSize={{ maxRows: 2 }}
+              autoSize={{ minRows: 2, maxRows: 2 }}
               onChange={e => {
                 this.setState({ sendMsg: e.target.value });
               }}
@@ -124,11 +126,9 @@ export default class ChatWidget extends Component {
               value={this.state.sendMsg}
             />
           </div>
-          <div className="chat-chat-widget-sendbox-btn">
-            <Button type="primary" onClick={this.clickButton}>
+          <Button className="chat-chat-widget-sendbox-btn" type="primary" onClick={this.clickButton}>
             <SendOutlined />
-            </Button>
-          </div>
+          </Button>
         </Footer>
       </Layout>
     );

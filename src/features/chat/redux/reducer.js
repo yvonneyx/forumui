@@ -7,8 +7,16 @@
 // https://medium.com/@nate_wang/a-new-approach-for-managing-redux-actions-91c26ce8b5da.
 
 import initialState from './initialState';
+import { reducer as getPendingFriendsListReducer } from './getPendingFriendsList';
+import { reducer as removeInvitationReducer } from './removeInvitation';
+import { reducer as acceptInvitationReducer } from './acceptInvitation';
+import { reducer as getFriendsListReducer } from './getFriendsList';
 
 const reducers = [
+  getPendingFriendsListReducer,
+  removeInvitationReducer,
+  acceptInvitationReducer,
+  getFriendsListReducer,
 ];
 
 export default function reducer(state = initialState, action) {
