@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 // import PropTypes from 'prop-types';
 // import {} from './redux/hooks';
 import { Link, Prompt } from 'react-router-dom';
-import { Space, Button, Menu, Dropdown, Switch, Divider } from 'antd';
+import { Space, Button, Menu, Dropdown, Switch, Divider, Popover } from 'antd';
 import {
   MessageFilled,
   CheckCircleFilled,
@@ -11,11 +11,13 @@ import {
   SettingOutlined,
   LogoutOutlined,
   EditFilled,
+  ContactsFilled,
 } from '@ant-design/icons';
 import { UserCard, HeaderSearchBox } from './';
 import { useCookies } from "react-cookie";
 import _ from 'lodash';
 import useDocumentScrollThrottled from '../common/UseDocumentScrollThrottled';
+import { ContactsList } from '../chat';
 
 export default function Header() {
   const [status, setStatus] = useState(true);
@@ -95,6 +97,9 @@ export default function Header() {
         </Space>
       ) : (
           <Space className="home-header-nav" size="1px">
+            <Popover placement="bottom" content={<div className="popover-contacts-content"><ContactsList/></div>} trigger="click" >
+              <Button icon={<ContactsFilled />} type="text" />
+            </Popover>
             <Button icon={<MessageFilled />} type="text" href="/channel" />
             <Button icon={<EditFilled />} type="text" href="/new-post"/>
             <Divider type="vertical" />
