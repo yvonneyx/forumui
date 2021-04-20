@@ -5,6 +5,7 @@ import { Avatar, Button, message, Input } from 'antd';
 import { DownCircleOutlined, DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled  } from '@ant-design/icons';
 import { useCreateAComment, useLikeComment } from './redux/hooks';
 import _ from 'lodash';
+import { AvatarWithInvitation } from '../common';
 
 export default function NestedCommentsSection(props) {
   const { loggedUserInfo = {}, parentComments } = props;
@@ -113,10 +114,14 @@ export default function NestedCommentsSection(props) {
   const CustomizedComment = (props) => {
     const { comment } = props;
     let loggedId = loggedUserInfo.id;
+    debugger;
     return (
       <>
         <div className="comment" key={`comment_${comment.id}`}>
-          <Avatar className="comment-avatar" src={comment.avatar} />
+          {/* <Avatar className="comment-avatar" src={comment.avatar} /> */}
+          <span className="comment-avatar">
+            <AvatarWithInvitation className="comment-avatar" src={comment.avatar} loggedId={loggedId} avatarId={comment.author}/>
+          </span>
           <div className="comment-content">
             <div className="comment-content-author">
               <div className="comment-content-author-nickname">{comment.nickname}</div>

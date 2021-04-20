@@ -11,12 +11,14 @@ import { reducer as getPendingFriendsListReducer } from './getPendingFriendsList
 import { reducer as removeInvitationReducer } from './removeInvitation';
 import { reducer as acceptInvitationReducer } from './acceptInvitation';
 import { reducer as getFriendsListReducer } from './getFriendsList';
+import { reducer as sendInvitationReducer } from './sendInvitation';
 
 const reducers = [
   getPendingFriendsListReducer,
   removeInvitationReducer,
   acceptInvitationReducer,
   getFriendsListReducer,
+  sendInvitationReducer,
 ];
 
 export default function reducer(state = initialState, action) {

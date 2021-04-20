@@ -18,6 +18,7 @@ import 'moment/locale/fr'
 import { useFindPostById, useVote } from './redux/hooks';
 import store from '../../common/store';
 import { CommentView } from './';
+import { AvatarWithInvitation } from '../common';
 
 export default function PostView({ match }) {
   const postId = match.params.id;
@@ -152,7 +153,7 @@ export default function PostView({ match }) {
           </div>
           <Typography.Text className="post-post-view-auther" type="secondary">
             ( Publié par &nbsp;
-          <Avatar src={postDetail.avatarUrl} icon={<UserOutlined />} size={30} />{' '}
+          <AvatarWithInvitation src={postDetail.avatarUrl} icon={<UserOutlined />} size={30} avatarId={postDetail.creatorId} loggedId={loggedId}/>{' '}
             {postDetail.nickname} )
         </Typography.Text>
         </Card></Spin>}

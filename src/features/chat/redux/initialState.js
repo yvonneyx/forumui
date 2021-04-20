@@ -14,6 +14,8 @@ const initialState = {
   acceptInvitationError: null,
   getFriendsListPending: false,
   getFriendsListError: null,
+  sendInvitationPending: false,
+  sendInvitationError: null,
 };
 
 export default initialState;
