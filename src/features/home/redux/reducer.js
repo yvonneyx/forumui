@@ -6,6 +6,7 @@ import { reducer as findOneByIdReducer } from './findOneById';
 import { reducer as uploadAvatarReducer } from './uploadAvatar';
 import { reducer as modifyOneByIdReducer } from './modifyOneById';
 import { reducer as queryReducer } from './query';
+import { reducer as findBSerByIdReducer } from './findBSerById';
 
 const reducers = [
   signUpReducer,
@@ -15,6 +16,7 @@ const reducers = [
   uploadAvatarReducer,
   modifyOneByIdReducer,
   queryReducer,
+  findBSerByIdReducer,
 ];
 
 export default function reducer(state = initialState, action) {

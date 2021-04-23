@@ -16,6 +16,8 @@ const initialState = {
   modifyOneByIdError: null,
   queryPending: false,
   queryError: null,
+  findBSerByIdPending: false,
+  findBSerByIdError: null,
 };
 
 export default initialState;

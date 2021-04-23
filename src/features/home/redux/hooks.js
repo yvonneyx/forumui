@@ -5,3 +5,4 @@ export { useFindOneById } from './findOneById';
 export { useUploadAvatar } from './uploadAvatar';
 export { useModifyOneById } from './modifyOneById';
 export { useQuery } from './query';
+export { useFindBSerById } from './findBSerById';

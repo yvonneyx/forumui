@@ -51,7 +51,6 @@ export default function Login(props) {
   };
 
   const onFinishFailed = errorInfo => {
-    debugger;
     return notification.error({
       message: 'Échec de la connexion',
       description:

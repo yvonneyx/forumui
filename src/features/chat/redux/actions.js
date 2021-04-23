@@ -3,3 +3,4 @@ export { removeInvitation, dismissRemoveInvitationError } from './removeInvitati
 export { acceptInvitation, dismissAcceptInvitationError } from './acceptInvitation';
 export { getFriendsList, dismissGetFriendsListError } from './getFriendsList';
 export { sendInvitation, dismissSendInvitationError } from './sendInvitation';
+export { verifyFriendsRelation, dismissVerifyFriendsRelationError } from './verifyFriendsRelation';

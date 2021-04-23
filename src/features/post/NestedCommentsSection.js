@@ -114,11 +114,9 @@ export default function NestedCommentsSection(props) {
   const CustomizedComment = (props) => {
     const { comment } = props;
     let loggedId = loggedUserInfo.id;
-    debugger;
     return (
       <>
         <div className="comment" key={`comment_${comment.id}`}>
-          {/* <Avatar className="comment-avatar" src={comment.avatar} /> */}
           <span className="comment-avatar">
             <AvatarWithInvitation className="comment-avatar" src={comment.avatar} loggedId={loggedId} avatarId={comment.author}/>
           </span>

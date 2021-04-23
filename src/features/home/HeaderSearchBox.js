@@ -45,9 +45,8 @@ export default function HeaderSearchBox() {
         {_.map(options, option => {
           if (option.type === 'brainstorming' && option.found == 'title') {
             return (
-              <Menu.Item className="menu-item">
-                <a href={`/post/${option.id}`}>
-                  <div>
+              <Menu.Item className="menu-item" key={option.id}>
+                <a href={`/post/${option.id}`} target="_blank" rel="noopener noreferrer">
                     <Highlighter
                       className="option-title"
                       highlightClassName="match-option-highlight"
@@ -58,15 +57,13 @@ export default function HeaderSearchBox() {
                     <div className="option-tip">
                       Trouvé dans <div className="option-tip-found">{terme[option.found]}</div>
                     </div>
-                  </div>
                 </a>
               </Menu.Item>
             );
           } else {
             return (
-              <Menu.Item className="menu-item">
-                <a href={`/post/${option.id}`}>
-                  <div>
+              <Menu.Item className="menu-item" key={option.id}>
+                <a href={`/post/${option.id}`} target="_blank" rel="noopener noreferrer">
                     <Highlighter
                       className="option-title"
                       highlightClassName="match-option-highlight"
@@ -88,7 +85,6 @@ export default function HeaderSearchBox() {
                         <div className="option-tip-found">{terme[`comment-${option.found}`]}</div>
                       </div>
                     )}
-                  </div>
                 </a>
               </Menu.Item>
             );

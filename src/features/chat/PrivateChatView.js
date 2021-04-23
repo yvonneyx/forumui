@@ -65,19 +65,18 @@ class PrivateChatView extends Component {
   render() {
     return (
       <div className="chat-private-chat-view">
-        <Divider orientation="left">Liste de messages</Divider>
         <Row className="chat-body">
           <Col className="chat-list-column" span={7}>
             <div className="chat-list-column-title">
               <LeftOutlined className="chat-list-column-title-icon" />
               Chat
             </div>
-            <Input className="chat-list-column-search" placeholder="Recherche" onSearch={(e) => { console.log(e) }} suffix={<SearchOutlined />} />
+            {/* <Input className="chat-list-column-search" placeholder="Recherche" onSearch={(e) => { console.log(e) }} suffix={<SearchOutlined />} /> */}
             <div className="chat-list-column-tabs">
               <div
                 className={`chat-list-column-tab chat-list-column-tab${
                   this.state.selectedKey === 'chats' ? '-selected' : '-unselected'
-                  }`}
+                }`}
                 onClick={() => {
                   this.setState({ selectedKey: 'chats' });
                 }}
@@ -88,7 +87,7 @@ class PrivateChatView extends Component {
               <div
                 className={`chat-list-column-tab chat-list-column-tab${
                   this.state.selectedKey === 'contacts' ? '-selected' : '-unselected'
-                  }`}
+                }`}
                 onClick={() => {
                   this.setState({ selectedKey: 'contacts' });
                 }}
@@ -97,11 +96,15 @@ class PrivateChatView extends Component {
                 Contacts
               </div>
             </div>
-            {this.state.selectedKey === 'chats' ? <ChatList
-              className="chat-list"
-              onClick={e => this.setState({ clickUser: e })}
-              dataSource={this.state.userList}
-            /> : <ContactsList />}
+            {this.state.selectedKey === 'chats' ? (
+              <ChatList
+                className="chat-list"
+                onClick={e => this.setState({ clickUser: e })}
+                dataSource={this.state.userList}
+              />
+            ) : (
+              <ContactsList />
+            )}
           </Col>
           <Col span={17}>
             {this.state.userList.length === 0 ? (
@@ -110,12 +113,12 @@ class PrivateChatView extends Component {
                 ci-dessous ou à partir du profil de quelqu'un
               </div>
             ) : (
-                <ChatWidget
-                  receiver={this.state.clickUser}
-                  websocket={this.ws}
-                  senderId={this.state.userID}
-                />
-              )}
+              <ChatWidget
+                receiver={this.state.clickUser}
+                websocket={this.ws}
+                senderId={this.state.userID}
+              />
+            )}
           </Col>
         </Row>
       </div>

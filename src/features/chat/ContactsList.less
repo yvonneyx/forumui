@@ -8,10 +8,41 @@
   max-height: 403px;
   overflow: auto;
 
+  &-search {
+    width: 98%;
+    border: none;
+    border-radius: 10px;
+    background-color: #f0f3f6;
+    height: 40px;
+    line-height: 40px;
+    margin: 4px 1% 6px 2px;
+
+    .ant-input {
+      background-color: #f0f3f6;
+    }
+
+    &-result {
+      position: absolute;
+      width: 95%;
+      background-color: #fff;
+      background-clip: padding-box;
+      padding: 4px 0 0;
+      transition: all 250ms cubic-bezier(0.02, 0.01, 0.47, 1);
+      border: none;
+      border-radius: 4px;
+      // box-shadow: 0 3px 12px -6px rgba(0, 0, 0, 0.54);
+      box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.24), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+        0 9px 28px 8px rgba(0, 0, 0, 0.05);
+      z-index: 9999;
+    }
+  }
+
   .common {
     &-title {
       color: #a3abb5;
       margin: 6px 0;
+      line-height: 22px;
+      height: 22px;
     }
 
     &-card {
@@ -20,9 +51,9 @@
       position: relative;
       height: 36px;
       line-height: 36px;
-      padding: 2px 8px;
+      padding: 2px 6px;
       margin-bottom: 6px;
-      transition: .3s;
+      transition: 0.3s;
 
       .ant-avatar {
         margin-top: 2px;
@@ -41,13 +72,37 @@
         background-color: #f0f1f3;
         color: #9da5b0;
         border-radius: 5px;
-        transition: .3s;
+        transition: 0.3s;
+
+        &-left {
+          transform: translateX(-26px);
+        }
 
         &:hover {
           background-color: #e0f4f1;
           color: #00a389;
           cursor: pointer;
         }
+      }
+
+      &-ws {
+        position: absolute;
+        right: 15px;
+        top: 8px;
+        height: 20px;
+        line-height: 24px;
+        text-align: center;
+        color: #9da5b0;
+        font-size: 12px;
+        transition: 0.3s;
+      }
+
+      &-content {
+        font-size: 13px;
+        color: #5a68df;
+        height: 32px;
+        line-height: 32px;
+        margin-left: 18px;
       }
 
       &:hover {
@@ -59,18 +114,34 @@
 
   .nouveaux-amis-part {
     margin-bottom: 12px;
+
     &-tip {
       font-size: 12px;
-      color: #5a68df;
+      color: #00a389;
       line-height: 14px;
       margin-bottom: 8px;
+      font-family: googleSans-light;
+    }
+
+    &-count {
+      display: inline-block;
+      font-size: 12px;
+      height: 16px;
+      line-height: 16px;
+      width: 16px;
+      border-radius: 6px;
+      color: #5a68df;
+      background-color: #dfe1f9;
+      text-align: center;
+      margin-left: 6px;
     }
 
     &-voir {
       float: right;
       color: #a3abb5;
       margin-right: 8px;
-      transition: .3s;
+      transition: 0.3s;
+      font-size: 12px;
 
       &:hover {
         color: #00a389;
@@ -94,7 +165,19 @@
   .amis-part {
     &-content {
       height: 100%;
+
+      &-aucune {
+        text-align: center;
+        margin: 10px 0;
+        font-size: 12px;
+        color: #8b9ab0;
+      }
     }
+  }
+
+  .error {
+    font-size: 12px;
+    color: #f5222d;
   }
 }
 .ant-popover-inner {
@@ -112,4 +195,10 @@
     border-color: @blue;
     color: @blue;
   }
+}
+
+.fetch {
+  font-size: 13px;
+  color: #9da5b0;
+  text-align: center;
 }
