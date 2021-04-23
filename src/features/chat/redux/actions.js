@@ -6,3 +6,4 @@ export { sendInvitation, dismissSendInvitationError } from './sendInvitation';
 export { verifyFriendsRelation, dismissVerifyFriendsRelationError } from './verifyFriendsRelation';
 export { getAllMsgs, dismissGetAllMsgsError } from './getAllMsgs';
 export { getAllOfflines, dismissGetAllOfflinesError } from './getAllOfflines';
+export { getLatestMsgsList, dismissGetLatestMsgsListError } from './getLatestMsgsList';

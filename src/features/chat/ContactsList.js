@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 // import PropTypes from 'prop-types';
 import {
   useGetPendingFriendsList,
@@ -8,18 +8,20 @@ import {
 } from './redux/hooks';
 import store from '../../common/store';
 import _ from 'lodash';
-import { Avatar, Popconfirm, notification, Popover, Input, Dropdown, Menu, message } from 'antd';
+import { Avatar, Popconfirm, notification, Popover, Input, Dropdown, Spin, message } from 'antd';
 import {
   UserOutlined,
   UserAddOutlined,
   SendOutlined,
   UserDeleteOutlined,
+  MailOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
 import { useVerifyFriendsRelation, useSendInvitation } from './redux/hooks';
-import { useFindBSerById } from '../home/redux/hooks';
+import { ContactContext } from './PrivateChatView';
 
 export default function ContactsList() {
+  let { clickUser, setClickUser, noContact, setNoContact } = useContext(ContactContext);
   const {
     pendingFriendsList,
     getPendingFriendsList,
@@ -39,10 +41,7 @@ export default function ContactsList() {
   let loggedId = 0;
   const [showPendingFriendsList, setShowPendingFriendsList] = useState(false);
   const [needPendingFrsUpdate, setNeedPendingFrsUpdate] = useState(false);
-  const {
-    friendsRelation,
-    verifyFriendsRelation
-  } = useVerifyFriendsRelation();
+  const { friendsRelation, verifyFriendsRelation } = useVerifyFriendsRelation();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [searchedUserInfo, setSearchedUserInfo] = useState({});
 
@@ -129,7 +128,7 @@ export default function ContactsList() {
                   sendInv(searchedUserInfo.id);
                 }}
               >
-                <UserAddOutlined className="common-card-plus" />
+                <UserAddOutlined  className="common-card-plus" />
               </Popconfirm>
             )}
             {(friendsRelation == 0 || hasInvited[`${loggedId}-${searchedUserInfo.id}`]) && (
@@ -137,9 +136,7 @@ export default function ContactsList() {
             )}
             {friendsRelation == 1 && (
               <span>
-                <Popover content="Démarrer un nouveau chat.">
-                  <SendOutlined className="common-card-plus common-card-plus-left" />
-                </Popover>
+                <SendOutlined className="common-card-plus common-card-plus-left" />
                 <Popconfirm
                   title={`Supprimer le contact « ${_.startCase(
                     searchedUserInfo.nickname,
@@ -159,6 +156,11 @@ export default function ContactsList() {
         )
       );
     }
+  };
+
+  const openChat = v => {
+    setClickUser({ id: v.friendId, title: v.nickname });
+    setNoContact(false);
   };
 
   return (
@@ -222,7 +224,7 @@ export default function ContactsList() {
                         popCancel(v.userId);
                       }}
                     >
-                      <UserAddOutlined className="common-card-plus" />
+                      <MailOutlined className="common-card-plus" />
                     </Popconfirm>
                   </div>
                 );
@@ -236,33 +238,37 @@ export default function ContactsList() {
         {getFriendsListPending ? (
           <div className="fetch">Fetching...</div>
         ) : !_.isEmpty(friendsList) ? (
-          <div className="amis-part-content" spin={getFriendsListPending}>
-            {_.map(friendsList || [], v => {
-              debugger;
-              return (
-                <div className="common-card">
-                  <Avatar icon={<UserOutlined />} src={v.avatarUrl} size={28} />
-                  {v.nickname}
-                  <Popover content="Démarrer un nouveau chat.">
-                    <SendOutlined className="common-card-plus common-card-plus-left" />
-                  </Popover>
-                  <Popconfirm
-                    title={`Supprimer le contact « ${_.startCase(
-                      v.nickname,
-                    )} » et les Chats associés`}
-                    okText="Supprimer le contact"
-                    cancelText="Annuler"
-                    icon={false}
-                    onConfirm={() => {
-                      popCancel(v.friendId);
-                    }}
-                  >
-                    <UserDeleteOutlined className="common-card-plus" />
-                  </Popconfirm>
-                </div>
-              );
-            })}
-          </div>
+          <Spin spinning={getFriendsListPending}>
+            <div className="amis-part-content">
+              {_.map(friendsList || [], v => {
+                return (
+                  <div className="common-card" key={v.id}>
+                    <Avatar icon={<UserOutlined />} src={v.avatarUrl} size={28} />
+                    {v.nickname}
+                    <SendOutlined
+                      className="common-card-plus common-card-plus-left"
+                      onClick={() => {
+                        openChat(v);
+                      }}
+                    />
+                    <Popconfirm
+                      title={`Supprimer le contact « ${_.startCase(
+                        v.nickname,
+                      )} » et les Chats associés`}
+                      okText="Supprimer le contact"
+                      cancelText="Annuler"
+                      icon={false}
+                      onConfirm={() => {
+                        popCancel(v.friendId);
+                      }}
+                    >
+                      <UserDeleteOutlined className="common-card-plus" />
+                    </Popconfirm>
+                  </div>
+                );
+              })}
+            </div>
+          </Spin>
         ) : (
           <div className="amis-part-content-aucune">Vous n'avez actuellement aucun ami</div>
         )}
@@ -274,6 +280,3 @@ export default function ContactsList() {
     </div>
   );
 }
-
-ContactsList.propTypes = {};
-ContactsList.defaultProps = {};

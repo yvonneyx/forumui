@@ -6,3 +6,4 @@ export { useSendInvitation } from './sendInvitation';
 export { useVerifyFriendsRelation } from './verifyFriendsRelation';
 export { useGetAllMsgs } from './getAllMsgs';
 export { useGetAllOfflines } from './getAllOfflines';
+export { useGetLatestMsgsList } from './getLatestMsgsList';

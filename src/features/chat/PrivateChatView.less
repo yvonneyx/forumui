@@ -104,4 +104,56 @@
       }
     }
   }
+
+  .chat-list {
+    &-tips{
+      height: 80px;
+      margin: 40px 30px;
+      font-size: 13px;
+      text-align: center;
+      color: #8A93A0;
+    }
+
+    &-title{
+      color: #a3abb5;
+      margin: 12px 0 6px 4px;
+      line-height: 22px;
+      height: 22px;
+      // font-family: merriweather-bold;
+    }
+    
+    &-content {
+      max-height: 429px;
+      overflow: auto;
+
+      .rce-avatar-container.large {
+        width: 36px;
+        height: 36px;
+      }
+      .rce-citem{
+        height: 66px;
+      }
+      .rce-citem-avatar {
+        padding: 0 12px 0 8px;
+      }
+      .rce-citem-body {
+        margin-right: 15px;
+        padding-right: 0;
+        &--top-title {
+          font-size: 14px !important;
+          color: #17213f;
+        }
+        &--top-time {
+          color: #717d9d;
+        }
+        &--bottom-title {
+          font-size: 12px !important;
+          color: #a1adbf;
+        }
+        &--bottom-status span {
+          background-color: #f5222d;
+        }
+      }
+    }
+  }
 }

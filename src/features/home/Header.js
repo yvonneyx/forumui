@@ -20,7 +20,7 @@ import useDocumentScrollThrottled from '../common/UseDocumentScrollThrottled';
 import { ContactsList } from '../chat';
 
 export default function Header() {
-  const [status, setStatus] = useState(true);
+  // const [status, setStatus] = useState(true);
   const [cookies, setcookie, removeCookie] = useCookies(["user"]);
   const loggedId = cookies.user;
 
@@ -32,9 +32,9 @@ export default function Header() {
     setShouldShowShadow(currentScrollTop > 2);
   });
 
-  const onChange = checked => {
-    setStatus(checked);
-  };
+  // const onChange = checked => {
+  //   setStatus(checked);
+  // };
 
   const logout = () => {
     removeCookie('user', loggedId, {path: "/"});
@@ -42,7 +42,7 @@ export default function Header() {
 
   const menu = (
     <Menu className="home-header-menu">
-      <Menu.ItemGroup key="g1" title="Statut">
+      {/* <Menu.ItemGroup key="g1" title="Statut">
         <Menu.Item
           key="statut"
           icon={
@@ -61,7 +61,7 @@ export default function Header() {
             onChange={onChange}
           />
         </Menu.Item>
-      </Menu.ItemGroup>
+      </Menu.ItemGroup> */}
       <Menu.ItemGroup key="stuff" title="Mes affaires">
         <Menu.Item key="profile" icon={<ProfileOutlined />}>
           <a className="profile-link" href="/setting-profile">Profil</a>
@@ -105,7 +105,7 @@ export default function Header() {
             <Divider type="vertical" />
             <Dropdown overlay={menu} trigger={['click']}>
               <div>
-                <UserCard status={status} loggedId={loggedId}/>
+                <UserCard loggedId={loggedId}/>
               </div>
             </Dropdown>
           </Space>

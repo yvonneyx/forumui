@@ -6,7 +6,7 @@ import { UserOutlined, DownOutlined } from '@ant-design/icons';
 import { useFindOneById } from './redux/hooks';
 
 export default function UserCard(props) {
-  const { status, loggedId } = props;
+  const {  loggedId } = props;
   const { loggedUserInfo, findOneById } = useFindOneById();
 
   useEffect(() => {
@@ -16,10 +16,8 @@ export default function UserCard(props) {
   return (
     <div className="home-user-card">
       <span>
-        <Badge color={status ? '#87d068' : '#f50'} dot={!status}>
           <Avatar size="small" shape="square" icon={<UserOutlined />} 
           src={loggedUserInfo && loggedUserInfo.avatarUrl} />
-        </Badge>
       </span>
       <div className="home-user-card-icon">
         <DownOutlined />

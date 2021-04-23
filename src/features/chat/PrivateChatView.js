@@ -1,129 +1,149 @@
-import React, { Component } from 'react';
-import { ChatWidget, ContactsList } from './';
+import React, { useState, useEffect, createContext, useContext } from 'react';
+import { ChatWidget, ContactsList, ChatNow } from './';
 import { ChatList } from 'react-chat-elements';
-import { Row, Col, Divider, message, Input } from 'antd';
+import { Row, Col, Avatar } from 'antd';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
-import { withCookies, Cookies } from 'react-cookie';
-import { instanceOf } from 'prop-types';
-import { LeftOutlined, ContactsOutlined, WechatOutlined, SearchOutlined } from '@ant-design/icons';
+import { useCookies } from 'react-cookie';
+import { LeftOutlined, ContactsOutlined, WechatOutlined, UserOutlined } from '@ant-design/icons';
+import { useGetAllOfflines, useGetLatestMsgsList } from './redux/hooks';
+import _ from 'lodash';
 
-const { Search } = Input;
+export const ContactContext = createContext('');
 
-class PrivateChatView extends Component {
-  static propTypes = {
-    cookies: instanceOf(Cookies).isRequired,
-  };
+export default function PrivateChatView() {
+  const [cookies, setcookie, removeCookie] = useCookies(['user']);
+  let userID = cookies.user;
+  const [selectedKey, setSelectedKey] = useState('chats');
+  const [userList, setUserList] = useState([]);
+  const [clickUser, setClickUser] = useState({});
+  const [noContact, setNoContact] = useState(false);
+  const ws = new W3CWebSocket(`ws://192.168.1.76:8089/imserver/${userID}`);
+  const { getAllOfflines } = useGetAllOfflines();
+  const { getLatestMsgsList } = useGetLatestMsgsList();
 
-  state = {
-    userList: [],
-    clickUser: null,
-    userID: this.props.cookies.get('user') || '',
-    selectedKey: 'contacts',
-  };
+  useEffect(() => {
+    getLatestMsgsList({
+      destination: userID,
+    }).then(res => {
+      let newLatestMsgList = [];
+      _.forEach(res.data, v => {
+        newLatestMsgList.unshift({
+          avatar: v.avatarUrl,
+          alt: v.nickname,
+          title: v.nickname,
+          subtitle: v.content,
+          date: v.date,
+          unread: v.offlineCount,
+          id: v.source === userID ? v.destination : v.source,
+        });
+      });
+      setUserList(_.sortBy(newLatestMsgList, 'date', 'desc'));
+      setClickUser(newLatestMsgList[0]);
+      if (newLatestMsgList.length === 0) {
+        setNoContact(true);
+      }
+    });
+  }, [getLatestMsgsList, userID]);
 
-  ws = new W3CWebSocket(`ws://192.168.1.76:8089/imserver/${this.state.userID}`);
-
-  componentDidMount() {
-    console.log(this.props.cookies);
-
-    this.ws.onopen = () => {
+  useEffect(() => {
+    ws.onopen = () => {
       console.log('WebSocket Client Connected.');
     };
 
-    this.ws.onmessage = message => {
+    ws.onmessage = message => {
       const dataFormServer = JSON.parse(message.data);
       console.log('[parent]got reply!', dataFormServer);
     };
+  }, [ws.onopen, ws.onmessage]);
 
-    // this.ws.onclose = () => {
-    //   console.log('Disconnected.');
-    // }
-
-    let list = [];
-    list.push({
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      alt: 'Reactjs',
-      title: 'Cecile',
-      subtitle: 'What are you doing?',
-      date: new Date(),
-      unread: Math.floor(Math.random() * 10),
-      id: 6,
+  const onChatClick = e => {
+    setClickUser(e);
+    getAllOfflines({
+      source: e.id,
+      destination: userID,
+    }).then(res => {
+      _.forEach(res.data || [], offline => {
+        const newMeg = {
+          msgId: offline.msgId,
+          type: 'MESSAGE_READ',
+        };
+        ws.send(JSON.stringify({ ...newMeg }));
+      });
     });
-    list.push({
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      alt: 'Reactjs',
-      title: 'Sunny',
-      subtitle: 'What are you doing?',
-      date: new Date(),
-      unread: Math.floor(Math.random() * 10),
-      id: 5,
+    const newUserList = _.map(userList || [], v => {
+      if ((v.id = e.id)) {
+        return { ...v, unread: 0 };
+      }
+      return { ...v };
     });
-    this.setState({ userList: list });
-    this.setState({ clickUser: list[0] });
-  }
+    setUserList(newUserList);
+    setNoContact(false);
+  };
 
-  render() {
-    return (
-      <div className="chat-private-chat-view">
-        <Row className="chat-body">
-          <Col className="chat-list-column" span={7}>
-            <div className="chat-list-column-title">
-              <LeftOutlined className="chat-list-column-title-icon" />
-              Chat
+  return (
+    <div className="chat-private-chat-view">
+      <Row className="chat-body">
+        <Col className="chat-list-column" span={7}>
+          <div className="chat-list-column-title">
+            <LeftOutlined className="chat-list-column-title-icon" />
+            Chat
+          </div>
+          {/* <Input className="chat-list-column-search" placeholder="Recherche" onSearch={(e) => { console.log(e) }} suffix={<SearchOutlined />} /> */}
+          <div className="chat-list-column-tabs">
+            <div
+              className={`chat-list-column-tab chat-list-column-tab${
+                selectedKey === 'chats' ? '-selected' : '-unselected'
+              }`}
+              onClick={() => {
+                setSelectedKey('chats');
+              }}
+            >
+              <WechatOutlined />
+              Chats
             </div>
-            {/* <Input className="chat-list-column-search" placeholder="Recherche" onSearch={(e) => { console.log(e) }} suffix={<SearchOutlined />} /> */}
-            <div className="chat-list-column-tabs">
-              <div
-                className={`chat-list-column-tab chat-list-column-tab${
-                  this.state.selectedKey === 'chats' ? '-selected' : '-unselected'
-                }`}
-                onClick={() => {
-                  this.setState({ selectedKey: 'chats' });
-                }}
-              >
-                <WechatOutlined />
-                Chats
-              </div>
-              <div
-                className={`chat-list-column-tab chat-list-column-tab${
-                  this.state.selectedKey === 'contacts' ? '-selected' : '-unselected'
-                }`}
-                onClick={() => {
-                  this.setState({ selectedKey: 'contacts' });
-                }}
-              >
-                <ContactsOutlined />
-                Contacts
-              </div>
+            <div
+              className={`chat-list-column-tab chat-list-column-tab${
+                selectedKey === 'contacts' ? '-selected' : '-unselected'
+              }`}
+              onClick={() => {
+                setSelectedKey('contacts');
+                setNoContact(true);
+              }}
+            >
+              <ContactsOutlined />
+              Contacts
             </div>
-            {this.state.selectedKey === 'chats' ? (
-              <ChatList
-                className="chat-list"
-                onClick={e => this.setState({ clickUser: e })}
-                dataSource={this.state.userList}
-              />
-            ) : (
-              <ContactsList />
-            )}
-          </Col>
-          <Col span={17}>
-            {this.state.userList.length === 0 ? (
+          </div>
+          {selectedKey === 'chats' ? (
+            !_.isEmpty(userList) ? (
               <div>
-                Démarrer un chat directe Vous pouvez démarrer un nouveau chat direct avec le bouton
-                ci-dessous ou à partir du profil de quelqu'un
+                <div className="chat-list-title">Derniers chats</div>
+                <ChatList
+                  className="chat-list-content"
+                  onClick={e => onChatClick(e)}
+                  dataSource={userList}
+                />
               </div>
             ) : (
-              <ChatWidget
-                receiver={this.state.clickUser}
-                websocket={this.ws}
-                senderId={this.state.userID}
-              />
-            )}
-          </Col>
-        </Row>
-      </div>
-    );
-  }
+              <div className="chat-list-tips">
+                N'hésitez pas à avoir une conversation agréable avec les brainstormers qui vous
+                intéressent.
+              </div>
+            )
+          ) : (
+            <ContactContext.Provider value={{ clickUser, setClickUser, noContact, setNoContact }}>
+              <ContactsList key={userID} />
+            </ContactContext.Provider>
+          )}
+        </Col>
+        <Col span={17}>
+          {noContact ? (
+            <ChatNow />
+          ) : (
+            <ChatWidget receiver={clickUser} websocket={ws} senderId={userID} />
+          )}
+        </Col>
+      </Row>
+    </div>
+  );
 }
-
-export default withCookies(PrivateChatView);

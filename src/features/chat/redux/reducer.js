@@ -15,6 +15,7 @@ import { reducer as sendInvitationReducer } from './sendInvitation';
 import { reducer as verifyFriendsRelationReducer } from './verifyFriendsRelation';
 import { reducer as getAllMsgsReducer } from './getAllMsgs';
 import { reducer as getAllOfflinesReducer } from './getAllOfflines';
+import { reducer as getLatestMsgsListReducer } from './getLatestMsgsList';
 
 const reducers = [
   getPendingFriendsListReducer,
@@ -25,6 +26,7 @@ const reducers = [
   verifyFriendsRelationReducer,
   getAllMsgsReducer,
   getAllOfflinesReducer,
+  getLatestMsgsListReducer,
 ];
 
 export default function reducer(state = initialState, action) {

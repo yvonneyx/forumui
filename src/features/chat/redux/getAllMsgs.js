@@ -50,8 +50,9 @@ export function dismissGetAllMsgsError() {
 export function useGetAllMsgs() {
   const dispatch = useDispatch();
 
-  const { getAllMsgsPending, getAllMsgsError } = useSelector(
+  const { allMsgs, getAllMsgsPending, getAllMsgsError } = useSelector(
     state => ({
+      allMsgs: state.chat.allMsgs,
       getAllMsgsPending: state.chat.getAllMsgsPending,
       getAllMsgsError: state.chat.getAllMsgsError,
     }),
@@ -67,6 +68,7 @@ export function useGetAllMsgs() {
   }, [dispatch]);
 
   return {
+    allMsgs,
     getAllMsgs: boundAction,
     getAllMsgsPending,
     getAllMsgsError,
@@ -88,6 +90,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        allMsgs: action.data.data,
         getAllMsgsPending: false,
         getAllMsgsError: null,
       };

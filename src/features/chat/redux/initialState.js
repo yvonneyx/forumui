@@ -22,6 +22,8 @@ const initialState = {
   getAllMsgsError: null,
   getAllOfflinesPending: false,
   getAllOfflinesError: null,
+  getLatestMsgsListPending: false,
+  getLatestMsgsListError: null,
 };
 
 export default initialState;
