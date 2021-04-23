@@ -4,3 +4,5 @@ export { acceptInvitation, dismissAcceptInvitationError } from './acceptInvitati
 export { getFriendsList, dismissGetFriendsListError } from './getFriendsList';
 export { sendInvitation, dismissSendInvitationError } from './sendInvitation';
 export { verifyFriendsRelation, dismissVerifyFriendsRelationError } from './verifyFriendsRelation';
+export { getAllMsgs, dismissGetAllMsgsError } from './getAllMsgs';
+export { getAllOfflines, dismissGetAllOfflinesError } from './getAllOfflines';
