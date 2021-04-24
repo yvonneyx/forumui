@@ -37,7 +37,7 @@ export default function PrivateChatView() {
           id: v.source === userID ? v.destination : v.source,
         });
       });
-      setUserList(_.sortBy(newLatestMsgList, 'date', 'desc'));
+      setUserList(newLatestMsgList);
       setClickUser(newLatestMsgList[0]);
       if (newLatestMsgList.length === 0) {
         setNoContact(true);
@@ -71,7 +71,7 @@ export default function PrivateChatView() {
       });
     });
     const newUserList = _.map(userList || [], v => {
-      if ((v.id = e.id)) {
+      if ((v.id === e.id)) {
         return { ...v, unread: 0 };
       }
       return { ...v };

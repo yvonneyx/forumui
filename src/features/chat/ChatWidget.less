@@ -4,7 +4,6 @@
   position: relative;
   height: 584px;
   background-color: #edeff4;
-  // margin: 5px 5px;
   border-radius: 13px;
 
   &-title {
@@ -24,25 +23,59 @@
 
   &-box {
     width: 100%;
-    max-height: calc(100%-128px);
+    height: 444px;
     text-align: center;
     vertical-align: middle;
-    overflow: auto;
+    overflow-y: scroll;
+
+    .message-list {
+
+      .rce-mbox {
+        height: 44px;
+        line-height: 35px;
+        margin-top: 4px;
+        margin-bottom: 4px;
+      }
+
+      .rce-mbox-right {
+        background: #d0d3e3;
+      }
+      .rce-mbox-right-notch {
+        fill: #d0d3e3;
+      }
+    }
   }
 
-  .message-list {
-    .rce-mbox {
-      height: 44px;
-      line-height: 35px;
-      margin-top: 4px;
-      margin-bottom: 4px;
-    }
+  &-notice {
+    position: absolute;
+    top: -24px;
+    left: 30px;
+    height: 32px;
+    line-height: 32px;
+    width: 140px;
+    background-color: #dfe1f9;
+    color: #5a68df;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 3px 12px -6px rgba(255, 255, 255);
+    transition: all 250ms cubic-bezier(0.02, 0.01, 0.47, 1);
+    animation: bounce 2s infinite;
 
-    .rce-mbox-right {
-      background: #d0d3e3;
+    &:hover{
+      cursor: pointer;
+      animation: none;
     }
-    .rce-mbox-right-notch {
-      fill: #d0d3e3;
+  }
+
+  @keyframes bounce {
+    0% {
+      transform: translate(0px, 0px);
+    }
+    50% {
+      transform: translate(0px, -8px);
+    }
+    100% {
+      transform: translate(0px, 0px);
     }
   }
 
@@ -51,10 +84,6 @@
     width: 100%;
     height: 72px;
     line-height: 60px;
-    // transition: all 250ms cubic-bezier(.02, .01, .47, 1);
-    // border-radius: 10px;
-    // box-shadow: 0 3px 12px -6px rgba(0, 0, 0, 0.54);
-    // background: #fff;
     position: relative;
     border-radius: 0 0 13px 13px;
 
@@ -83,14 +112,12 @@
       height: 40px;
 
       border-radius: 10px;
-      // line-height: 32px;
       width: 40px;
       background: #00a389;
 
       svg {
         font-size: 16px;
         transform: rotate(-41deg);
-        // font-weight: 900;
       }
 
       &:hover {

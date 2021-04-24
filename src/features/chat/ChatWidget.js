@@ -1,28 +1,53 @@
-import React, { Component, createRef, useEffect, useState } from 'react';
-import { MessageList } from 'react-chat-elements';
-import { Button, Row, Col, Input, message, Layout } from 'antd';
+import React, { useEffect, useState, useRef } from 'react';
+import { Button, Input, Layout, Spin } from 'antd';
 import _ from 'lodash';
-import { SendOutlined } from '@ant-design/icons';
+import { SendOutlined, CaretDownOutlined } from '@ant-design/icons';
 import { useGetAllMsgs } from './redux/hooks';
+import { MessageList } from 'react-chat-elements';
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Footer, Content } = Layout;
 
 const { TextArea } = Input;
-
 export default function ChatWidget(props) {
   const { receiver = {}, senderId, websocket } = props;
   const [msgDataList, setMsgDataList] = useState([]);
   const [sendMsg, setSendMsg] = useState('');
-  const [idx, setIdx] = useState('');
-  const { allMsgs, getAllMsgs, getAllMsgsPending, getAllMsgsError } = useGetAllMsgs();
-  const connectNumbers = (a, b) => {
-    return a > b ? `${b}-${a}` : `${a}-${b}`;
+  const [noticeVisible, setNoticeVisible] = useState('');
+  const { getAllMsgs, getAllMsgsPending, getAllMsgsError } = useGetAllMsgs();
+  const messagesEndRef = useRef(null);
+  const messagesRef = useRef(null);
+
+  const clickButton = () => {
+    if (!_.isEmpty(sendMsg)) {
+      websocket.send(
+        JSON.stringify({
+          type: 'MESSAGE_UNREAD',
+          contentText: sendMsg,
+          toUserId: receiver.id,
+          fromUserId: senderId,
+        }),
+      );
+    }
   };
 
-  useEffect(() => {
-    const receiverId = !_.isEmpty(receiver) ? receiver.id : 0;
-    setIdx(connectNumbers(senderId, receiverId));
-  }, [senderId, receiver]);
+  const scrollToBottom = () => {
+    if (!_.isEmpty(msgDataList)) {
+      if (receiver.id !== msgDataList[msgDataList.length - 1].fromUserId) {
+        messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  const scrollToBottomDirect = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const onScroll = e => {
+    const { scrollHeight, clientHeight, scrollTop } = e.currentTarget;
+    if (scrollHeight - clientHeight === scrollTop) {
+      setNoticeVisible(false);
+    }
+  };
 
   useEffect(() => {
     const receiverId = !_.isEmpty(receiver) ? receiver.id : 0;
@@ -58,12 +83,14 @@ export default function ChatWidget(props) {
             date: dataFormServer.date,
           },
         ]);
+        scrollToBottom();
         setSendMsg('');
       }
       //接收方收到服务器端转发发送方的信息
       if (
         dataFormServer.type === 'MESSAGE_UNREAD' &&
-        parseInt(dataFormServer.fromUserId) !== dataFormServer.toUserId
+        parseInt(dataFormServer.fromUserId) !== dataFormServer.toUserId &&
+        dataFormServer.fromUserId === receiver.id
       ) {
         setMsgDataList([
           ...msgDataList,
@@ -72,61 +99,54 @@ export default function ChatWidget(props) {
             type: 'text',
             text: dataFormServer.contentText,
             date: dataFormServer.date,
+            fromUserId: dataFormServer.fromUserId,
           },
         ]);
         if (dataFormServer.fromUserId === receiver.id) {
-          websocket.send(JSON.stringify({
-            msgId: dataFormServer.msgId,
-            type: 'MESSAGE_READ',
-          }));
+          websocket.send(
+            JSON.stringify({
+              msgId: dataFormServer.msgId,
+              type: 'MESSAGE_READ',
+            }),
+          );
+        }
+        console.log('top', messagesEndRef.current.getBoundingClientRect().top);
+        if (messagesEndRef.current.getBoundingClientRect().top > 258) {
+          setNoticeVisible(true);
         }
       }
     };
   });
 
-  // componentWillReceiveProps(nextProps, nextContext) {
-  //   this.setState({ receiver: nextProps.receiver }, () => {
-  //     let index = this.connectNumbers(this.props.senderId, this.props.receiver.id);
-  //     this.setState({ idx: index });
-  //   });
-  // }
-
-  const clickButton = () => {
-    if (!_.isEmpty(sendMsg)) {
-      websocket.send(
-        JSON.stringify({
-          type: 'MESSAGE_UNREAD',
-          contentText: sendMsg,
-          toUserId: receiver.id,
-          fromUserId: senderId,
-        }),
-      );
-    }
-  };
-
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   // this.messagesEnd.scrollTop = this.messagesEnd.scrollHeight;
-  // }
+  useEffect(scrollToBottom);
 
   return (
     <Layout className="chat-chat-widget">
       <Header className="chat-chat-widget-title">{receiver == null ? '' : receiver.title}</Header>
-      <Content
-        className="chat-chat-widget-box"
-        ref={el => {
-          // this.messagesEnd = el;
-        }}
-      >
-        <MessageList className="message-list" dataSource={msgDataList} />
+      <Content>
+        <Spin spinning={getAllMsgsPending}>
+          <div className="chat-chat-widget-box" onScroll={onScroll} ref={messagesRef}>
+            <MessageList className="message-list" dataSource={msgDataList} />
+            <div ref={messagesEndRef} />
+          </div>
+        </Spin>
+        {getAllMsgsError && (
+          <div className="error">Échec du chargement d'une liste pour afficher tous messages.</div>
+        )}
       </Content>
       <Footer className="chat-chat-widget-sendbox">
+        {noticeVisible && (
+          <div className="chat-chat-widget-notice" onClick={scrollToBottomDirect}>
+            <CaretDownOutlined />
+            &nbsp;Nouveau message
+          </div>
+        )}
         <div className="chat-chat-widget-sendbox-body">
           <TextArea
             autoSize={{ minRows: 2, maxRows: 2 }}
             onChange={e => {
               setSendMsg(e.target.value);
             }}
-            // ref={el => (this.inputRef = el)}
             value={sendMsg}
           />
         </div>
