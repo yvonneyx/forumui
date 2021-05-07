@@ -69,19 +69,23 @@ export default function AvatarWithInvitation(props) {
 
   return (
     <div className="common-avatar-with-invitation">
-      <Popover
-        placement="topLeft"
-        content={popContent}
-        trigger="click"
-        onClick={() => {
-          popClick();
-        }}
-        width={100}
-      >
+      {_.isEqual(parseInt(avatarId), parseInt(loggedId)) ? (
         <Avatar src={src} icon={icon} size={size} />
-      </Popover>
+      ) : (
+        <Popover
+          placement="topLeft"
+          content={popContent}
+          trigger="click"
+          onClick={() => {
+            popClick();
+          }}
+          width={100}
+        >
+          <Avatar src={src} icon={icon} size={size} />
+        </Popover>
+      )}
       {sendInvitationPending && message.loading('Envoi en cours...')}
-      {sendInvitationError && message.error('L\'envoi a échoué, veuillez réessayer plus tard...')}
+      {sendInvitationError && message.error("L'envoi a échoué, veuillez réessayer plus tard...")}
     </div>
   );
 }

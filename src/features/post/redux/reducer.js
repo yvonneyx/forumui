@@ -15,6 +15,8 @@ import { reducer as findPostsByUserIdReducer } from './findPostsByUserId';
 import { reducer as createACommentReducer } from './createAComment';
 import { reducer as findCommentsByIdReducer } from './findCommentsById';
 import { reducer as likeCommentReducer } from './likeComment';
+import { reducer as findPostsByCategoriesReducer } from './findPostsByCategories';
+import { reducer as findHotPostsReducer } from './findHotPosts';
 
 const reducers = [
   createPostReducer,
@@ -25,6 +27,8 @@ const reducers = [
   createACommentReducer,
   findCommentsByIdReducer,
   likeCommentReducer,
+  findPostsByCategoriesReducer,
+  findHotPostsReducer,
 ];
 
 export default function reducer(state = initialState, action) {

@@ -28,7 +28,13 @@ export default function PostView({ match }) {
   const [answerDetail, setAnswerDetail] = useState([]);
   const { postDetail, findPostById, findPostByIdPending } = useFindPostById();
   const { vote, votePending } = useVote();
-  const loggedUserInfo = store.getState().home.loggedUserInfo;
+  const [loggedUserInfo , setLoggedUserInfo] = useState({});
+
+  useEffect(() => {
+    store.subscribe(() => {
+      setLoggedUserInfo(store.getState().home.loggedUserInfo);
+    }, []);
+  });
 
   useEffect(() => {
     findPostById({ id: postId });
@@ -168,7 +174,7 @@ export default function PostView({ match }) {
             </Typography.Text>)}
         </Card>
         <Card className="post-post-view-comments">
-          {loggedUserInfo && <CommentView postId={postId} loggedUserInfo={loggedUserInfo} />}
+          {!_.isEmpty(loggedUserInfo) && <CommentView postId={postId} loggedUserInfo={loggedUserInfo} />}
         </Card>
       </Spin>
     </div>

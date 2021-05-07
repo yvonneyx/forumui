@@ -6,3 +6,5 @@ export { findPostsByUserId, dismissFindPostsByUserIdError } from './findPostsByU
 export { createAComment, dismissCreateACommentError } from './createAComment';
 export { findCommentsById, dismissFindCommentsByIdError } from './findCommentsById';
 export { likeComment, dismissLikeCommentError } from './likeComment';
+export { findPostsByCategories, dismissFindPostsByCategoriesError } from './findPostsByCategories';
+export { findHotPosts, dismissFindHotPostsError } from './findHotPosts';

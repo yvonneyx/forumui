@@ -237,7 +237,7 @@ export default function ContactsList(props) {
       <div className="common amis-part">
         <div className="common-title">Amis</div>
         {getFriendsListPending ? (
-          <div className="fetch">Fetching...</div>
+          <div className="fetch">Aller chercher...</div>
         ) : !_.isEmpty(friendsList) ? (
           <Spin spinning={getFriendsListPending}>
             <div className="amis-part-content">

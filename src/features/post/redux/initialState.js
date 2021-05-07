@@ -22,6 +22,10 @@ const initialState = {
   findCommentsByIdError: null,
   likeCommentPending: false,
   likeCommentError: null,
+  findPostsByCategoriesPending: false,
+  findPostsByCategoriesError: null,
+  findHotPostsPending: false,
+  findHotPostsError: null,
 };
 
 export default initialState;

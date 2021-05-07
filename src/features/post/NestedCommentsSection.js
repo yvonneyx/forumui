@@ -32,9 +32,9 @@ export default function NestedCommentsSection(props) {
       let newComments = _.map(comments, c=>{
         if(c.id === comment.id){
           if(_.includes(c.likePersons, loggedUserInfo.id)){
-            return {...c, like: --c.like, likePersons: _.pull(c.likePersons, loggedUserInfo.id)}
+            return {...c, like: c.like-1, likePersons: _.pull(c.likePersons, loggedUserInfo.id)}
           }else{
-            return {...c, like: ++c.like, likePersons: _.concat(c.likePersons, loggedUserInfo.id)}
+            return {...c, like: c.like+1, likePersons: _.concat(c.likePersons, loggedUserInfo.id)}
           }
         }else{
           return {...c}
@@ -54,9 +54,9 @@ export default function NestedCommentsSection(props) {
       let newComments = _.map(comments, c=>{
         if(c.id === comment.id){
           if(_.includes(c.dislikePersons, loggedUserInfo.id)){
-            return {...c, dislike: --c.dislike, dislikePersons: _.pull(c.dislikePersons, loggedUserInfo.id)}
+            return {...c, dislike: c.dislike-1, dislikePersons: _.pull(c.dislikePersons, loggedUserInfo.id)}
           }else{
-            return {...c, dislike: ++c.dislike, dislikePersons: _.concat(c.dislikePersons, loggedUserInfo.id)}
+            return {...c, dislike: c.dislike+1, dislikePersons: _.concat(c.dislikePersons, loggedUserInfo.id)}
           }
         }else{
           return {...c}

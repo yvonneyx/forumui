@@ -6,3 +6,5 @@ export { useFindPostsByUserId } from './findPostsByUserId';
 export { useCreateAComment } from './createAComment';
 export { useFindCommentsById } from './findCommentsById';
 export { useLikeComment } from './likeComment';
+export { useFindPostsByCategories } from './findPostsByCategories';
+export { useFindHotPosts } from './findHotPosts';

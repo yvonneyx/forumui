@@ -9,7 +9,6 @@ import { CrownFilled, SwapRightOutlined } from '@ant-design/icons';
 export default function PostsListByUser(props) {
   const { postsListByUserId, findPostsByUserId, findPostsByUserIdPending } = useFindPostsByUserId();
   const { loggedId, hasNew } = props;
-  // let categoriesList = store.getState().common.categoriesList || [];
 
   useEffect(() => {
     loggedId && findPostsByUserId({ creatorId: loggedId });
