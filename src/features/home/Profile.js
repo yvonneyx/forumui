@@ -35,7 +35,7 @@ export default function Profile() {
   const [pwdUpdate, setPwdUpdate] = useState(false);
 
   useEffect(() => {
-    findOneById(loggedId);
+     !_.isEmpty(loggedId) && findOneById(loggedId);
   }, [findOneById, loggedId]);
 
   useEffect(() => {
@@ -143,7 +143,7 @@ export default function Profile() {
 ."
         >
           <Typography.Text type="primary">
-            {loggedUserInfo ? loggedUserInfo.eMail : ''}
+            {loggedUserInfo ? loggedUserInfo.email : ''}
           </Typography.Text>
         </Form.Item>
         <Form.Item

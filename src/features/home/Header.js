@@ -97,7 +97,7 @@ export default function Header() {
         </Space>
       ) : (
           <Space className="home-header-nav" size="1px">
-            <Popover placement="bottom" content={<div className="popover-contacts-content"><ContactsList/></div>} trigger="click" >
+            <Popover placement="bottom" content={<div className="popover-contacts-content"><ContactsList isHeaderComponent="true"/></div>} trigger="click" >
               <Button icon={<ContactsFilled />} type="text" />
             </Popover>
             <Button icon={<MessageFilled />} type="text" href="/channel" />

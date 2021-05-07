@@ -20,8 +20,9 @@ import {
 import { useVerifyFriendsRelation, useSendInvitation } from './redux/hooks';
 import { ContactContext } from './PrivateChatView';
 
-export default function ContactsList() {
+export default function ContactsList(props) {
   let { clickUser, setClickUser, noContact, setNoContact } = useContext(ContactContext);
+  const { isHeaderComponent } = props;
   const {
     pendingFriendsList,
     getPendingFriendsList,
@@ -128,7 +129,7 @@ export default function ContactsList() {
                   sendInv(searchedUserInfo.id);
                 }}
               >
-                <UserAddOutlined  className="common-card-plus" />
+                <UserAddOutlined className="common-card-plus" />
               </Popconfirm>
             )}
             {(friendsRelation == 0 || hasInvited[`${loggedId}-${searchedUserInfo.id}`]) && (
@@ -245,12 +246,14 @@ export default function ContactsList() {
                   <div className="common-card" key={v.id}>
                     <Avatar icon={<UserOutlined />} src={v.avatarUrl} size={28} />
                     {v.nickname}
-                    <SendOutlined
-                      className="common-card-plus common-card-plus-left"
-                      onClick={() => {
-                        openChat(v);
-                      }}
-                    />
+                    {_.isEmpty(isHeaderComponent) && (
+                      <SendOutlined
+                        className="common-card-plus common-card-plus-left"
+                        onClick={() => {
+                          openChat(v);
+                        }}
+                      />
+                    )}
                     <Popconfirm
                       title={`Supprimer le contact « ${_.startCase(
                         v.nickname,

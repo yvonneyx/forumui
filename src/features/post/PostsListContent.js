@@ -42,9 +42,6 @@ export default function PostsListContent(props) {
             </List.Item>
           )}
         />
-        {_.map(postsListByCategory || [], post => {
-
-        })}
       </Spin>
     </div>
   );

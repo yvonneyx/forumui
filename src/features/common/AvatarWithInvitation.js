@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
-import { Avatar, Popover, Button, message } from 'antd';
+import { Avatar, Popover, Button, message, Spin } from 'antd';
 import { UserAddOutlined, SmileTwoTone } from '@ant-design/icons';
 import { useSendInvitation, useVerifyFriendsRelation } from '../chat/redux/hooks';
 import _ from 'lodash';
@@ -40,26 +40,30 @@ export default function AvatarWithInvitation(props) {
   };
 
   const popContent = () => {
-    return friendsRelation === 1 ? (
-      <div>Vous êtes déjà amis.</div>
-    ) : hasInvited[loggedId - avatarId] || friendsRelation === 0 ? (
-      <div className="inv-sent">
-        <div>Invitation envoyée</div>
-        <div className="inv-sent-sm">
-          Veuillez attendre patiemment que l'autre partie accepte l'invitation.
-        </div>
-      </div>
-    ) : (
-      <Button
-        type="text"
-        size="small"
-        onClick={() => {
-          sendInv();
-        }}
-      >
-        <UserAddOutlined />
-        Ajouter ce brainstormer
-      </Button>
+    return (
+      <Spin spinning={verifyFriendsRelationPending}>
+        {parseInt(friendsRelation) === 1 ? (
+          <div>Vous êtes déjà amis.</div>
+        ) : hasInvited[loggedId - avatarId] || parseInt(friendsRelation) === 0 ? (
+          <div className="inv-sent">
+            <div>Invitation envoyée</div>
+            <div className="inv-sent-sm">
+              Veuillez attendre patiemment que l'autre partie accepte l'invitation.
+            </div>
+          </div>
+        ) : (
+          <Button
+            type="text"
+            size="small"
+            onClick={() => {
+              sendInv();
+            }}
+          >
+            <UserAddOutlined />
+            Ajouter ce brainstormer
+          </Button>
+        )}
+      </Spin>
     );
   };
 
@@ -76,6 +80,8 @@ export default function AvatarWithInvitation(props) {
       >
         <Avatar src={src} icon={icon} size={size} />
       </Popover>
+      {sendInvitationPending && message.loading('Envoi en cours...')}
+      {sendInvitationError && message.error('L\'envoi a échoué, veuillez réessayer plus tard...')}
     </div>
   );
 }

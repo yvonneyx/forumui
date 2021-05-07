@@ -118,7 +118,7 @@ export default function NestedCommentsSection(props) {
       <>
         <div className="comment" key={`comment_${comment.id}`}>
           <span className="comment-avatar">
-            <AvatarWithInvitation className="comment-avatar" src={comment.avatar} loggedId={loggedId} avatarId={comment.author}/>
+            <AvatarWithInvitation className="comment-avatar" src={comment.avatar} loggedId={loggedId} avatarId={comment.author} />
           </span>
           <div className="comment-content">
             <div className="comment-content-author">

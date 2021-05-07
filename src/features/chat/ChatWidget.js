@@ -110,7 +110,6 @@ export default function ChatWidget(props) {
             }),
           );
         }
-        console.log('top', messagesEndRef.current.getBoundingClientRect().top);
         if (messagesEndRef.current.getBoundingClientRect().top > 258) {
           setNoticeVisible(true);
         }

@@ -45,6 +45,7 @@ export default function CommentView(props) {
 
   const { createAComment, createACommentPending, createACommentError } = useCreateAComment();
   const { findCommentsById, findCommentsByIdPending, findCommentsByIdError, } = useFindCommentsById();
+  const forceUpdate = useForceUpdate();
 
   const handleCommentSubmit = () => {
     if (!inputValue) {
@@ -80,6 +81,10 @@ export default function CommentView(props) {
       setComments(existingCommentsFormat);
     });
   }, [findCommentsById, postId, newId])
+
+  useEffect(()=>{
+    forceUpdate();
+  },[comments, forceUpdate])
 
   const optimizeComments = comments => {
     return _.map(comments || [], comment => {

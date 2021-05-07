@@ -153,7 +153,7 @@ export default function PostView({ match }) {
           </div>
           <Typography.Text className="post-post-view-auther" type="secondary">
             ( Publié par &nbsp;
-          <AvatarWithInvitation src={postDetail.avatarUrl} icon={<UserOutlined />} size={30} avatarId={postDetail.creatorId} loggedId={loggedId}/>{' '}
+          <AvatarWithInvitation src={postDetail.avatarUrl} icon={<UserOutlined />} size={30} avatarId={postDetail.creatorId} loggedId={loggedId} />{' '}
             {postDetail.nickname} )
         </Typography.Text>
         </Card></Spin>}
