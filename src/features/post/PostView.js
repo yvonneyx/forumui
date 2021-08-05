@@ -136,7 +136,7 @@ export default function PostView({ match }) {
           </h2>
           {!_.isEmpty(postDetail.description) && <div className="post-post-view-description">{postDetail.description}</div>}
           <div className="post-post-view-contents">
-            {!_.isEmpty(postDetail.content) ?
+            {!_.isEmpty(loggedUserInfo) ? (!_.isEmpty(postDetail.content) ?
               (<div>
                 <Radio.Group onChange={onRadioChange} value={checkedValue}>
                   {_.map(_.keys(postDetail.content), key => {
@@ -155,6 +155,10 @@ export default function PostView({ match }) {
                 <Typography.Text className="post-post-view-contents-aucune" type="secondary">
                   ( <SmileOutlined /> Aucune option n'est actuellement disponible. )
             </Typography.Text>
+              )) : (
+                <Typography.Text className="post-post-view-contents-aucune" type="danger">
+                  ( <SmileOutlined /> Participez au brainstorming après vous être connecté. )
+            </Typography.Text>
               )}
           </div>
           <Typography.Text className="post-post-view-auther" type="secondary">
@@ -163,7 +167,7 @@ export default function PostView({ match }) {
             {postDetail.nickname} )
         </Typography.Text>
         </Card></Spin>}
-        <Card title="Résultats statistiques" className="post-post-view-results">
+        {!_.isEmpty(loggedUserInfo) && <Card title="Résultats statistiques" className="post-post-view-results">
           {!videResult(postDetail) ? <Pie
             hasLegend
             data={answerDetail}
@@ -172,10 +176,10 @@ export default function PostView({ match }) {
           /> : (<Typography.Text className="post-post-view-results-aucune" type="secondary">
             ( <SmileOutlined /> Aucune résultat n'est actuellement disponible. )
             </Typography.Text>)}
-        </Card>
-        <Card className="post-post-view-comments">
-          {!_.isEmpty(loggedUserInfo) && <CommentView postId={postId} loggedUserInfo={loggedUserInfo} />}
-        </Card>
+        </Card>}
+        {!_.isEmpty(loggedUserInfo) && <Card className="post-post-view-comments">
+           <CommentView postId={postId} loggedUserInfo={loggedUserInfo} />
+        </Card>}
       </Spin>
     </div>
   );

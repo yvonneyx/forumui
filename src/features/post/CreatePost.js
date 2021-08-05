@@ -49,12 +49,8 @@ export default function CreatePost(props) {
     };
     createPost(postInfo)
       .then(res => {
-        const newPostId = res.data.ext.create.id;
         setHasNew(true);
         message.success('Créé avec succès! 😊');
-        message
-          .info('Après 2s, il passera automatiquement à la page de sujet de Brainstorming.', 2)
-          .then(() => props.history.push(`/post/${newPostId}`));
       })
       .catch(() => {
         message.error("L'opération a échoué. Veuillez réessayer plus tard...😭");

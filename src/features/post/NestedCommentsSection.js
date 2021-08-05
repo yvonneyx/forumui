@@ -177,7 +177,7 @@ export default function NestedCommentsSection(props) {
     <div className="post-nested-comments-section">
       <div className="post-nested-comments-section-header">{comments.length}&nbsp;{comments.length > 1 ? 'réponses' : 'réponse'}</div>
       <div className="post-nested-comments-section-content">{rootComments}</div>
-      {comments.length > 5 && <div className="post-nested-comments-section-tip"><DownCircleOutlined />  Faites défiler vers le bas pour voir plus</div>}
+      {comments.length > 3 && <div className="post-nested-comments-section-tip"><DownCircleOutlined />  Faites défiler vers le bas pour voir plus</div>}
     </div>
   );
 };

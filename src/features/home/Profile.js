@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
 import { useFindOneById, useUploadAvatar, useModifyOneById } from './redux/hooks';
-import { Card, Form, Upload, Input, Typography, Button, Divider, message } from 'antd';
+import { Form, Upload, Input, Typography, Button, Divider, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { serverUrl } from '../../common/globalConfig';
 import store from '../../common/store';
@@ -35,7 +35,7 @@ export default function Profile() {
   const [pwdUpdate, setPwdUpdate] = useState(false);
 
   useEffect(() => {
-     !_.isEmpty(loggedId) && findOneById(loggedId);
+    !_.isEmpty(loggedId) && findOneById(loggedId);
   }, [findOneById, loggedId]);
 
   useEffect(() => {
@@ -127,7 +127,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="home-profile" >
+    <div className="home-profile">
       <div className="home-profile-title">Mon profile</div>
       <Form
         form={form}
@@ -216,6 +216,11 @@ export default function Profile() {
             tooltip="Le mot de passe doit être composé de 6 à 20 chiffres, lettres ou traits de soulignement, dont au moins deux, commençant par une lettre!"
             hasFeedback
             rules={[
+              {
+                required: true,
+                message:
+                  "Veuillez saisir le nouveau mot de passe!",
+              },
               {
                 pattern: /^[a-zA-Z](?![a-zA-Z]+$)\w{5,19}$/,
                 message:
