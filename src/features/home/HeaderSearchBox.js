@@ -6,12 +6,10 @@ import Highlighter from 'react-highlight-words';
 import _ from 'lodash';
 import { useQuery } from './redux/hooks';
 
-const { Option } = Select;
-
 export default function HeaderSearchBox() {
   const [searchKey, setSearchKey] = useState('');
   const [options, setOptions] = useState([]);
-  const { query, queryPending, queryError } = useQuery();
+  const { query } = useQuery();
   const [fetching, setFetching] = React.useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
@@ -34,10 +32,6 @@ export default function HeaderSearchBox() {
     }
     return newString;
   };
-
-  // const highlightHTML = e => {
-  //   return _.replace(e, new RegExp(searchKey,"gi"), '<span class="highlight">'+searchKey+'</span>')
-  // }
 
   const menu = () => {
     return (

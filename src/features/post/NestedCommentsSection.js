@@ -9,7 +9,6 @@ import { AvatarWithInvitation } from '../common';
 
 export default function NestedCommentsSection(props) {
   const { loggedUserInfo = {}, parentComments } = props;
-  const postId = !_.isEmpty(comments) && _.first(comments).brainstormingId;
   let rootId = null;
 
   const [comments, setComments] = useState([]);

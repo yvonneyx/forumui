@@ -28,7 +28,6 @@ export default function Login(props) {
     callApi && login({ ...values }).then(
       (res) => {
         if (!_.isEmpty(res.data.ext)) {
-          // bake_cookie(cookie_key, res.data.ext.id);
           setCookie("user", res.data.ext.id, { path: "/" });
           props.history.push('/accueil');
         } else {

@@ -13,11 +13,6 @@ const formItemLayout = {
   wrapperCol: { span: 10 },
 };
 
-// const formEditorItemLayout = {
-//   labelCol: { span: 6 },
-//   wrapperCol: { span: 32 },
-// };
-
 const formTailLayout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 12, offset: 8 },

@@ -32,36 +32,12 @@ export default function Header() {
     setShouldShowShadow(currentScrollTop > 2);
   });
 
-  // const onChange = checked => {
-  //   setStatus(checked);
-  // };
-
   const logout = () => {
     removeCookie('user', loggedId, {path: "/"});
   }
 
   const menu = (
     <Menu className="home-header-menu">
-      {/* <Menu.ItemGroup key="g1" title="Statut">
-        <Menu.Item
-          key="statut"
-          icon={
-            status ? (
-              <CheckCircleFilled style={{ color: '#52c41a' }} />
-            ) : (
-                <StopFilled style={{ color: '#f5222d' }} />
-              )
-          }
-        >
-          {status ? 'Disponible' : 'Occupé'}
-          <Switch
-            className="home-header-menu-switch"
-            defaultChecked={status}
-            size="small"
-            onChange={onChange}
-          />
-        </Menu.Item>
-      </Menu.ItemGroup> */}
       <Menu.ItemGroup key="stuff" title="Mes affaires">
         <Menu.Item key="profile" icon={<ProfileOutlined />}>
           <a className="profile-link" href="/setting-profile">Profil</a>

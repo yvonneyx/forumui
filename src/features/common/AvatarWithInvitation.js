@@ -12,7 +12,6 @@ export default function AvatarWithInvitation(props) {
     friendsRelation,
     verifyFriendsRelation,
     verifyFriendsRelationPending,
-    verifyFriendsRelationError,
   } = useVerifyFriendsRelation();
   const [hasInvited, setHasInvited] = useState({});
 
@@ -84,8 +83,6 @@ export default function AvatarWithInvitation(props) {
           <Avatar src={src} icon={icon} size={size} />
         </Popover>
       )}
-      {/* {sendInvitationPending && message.loading('Envoi en cours...')}
-      {sendInvitationError && message.error("L'envoi a échoué, veuillez réessayer plus tard...")} */}
     </div>
   );
 }
