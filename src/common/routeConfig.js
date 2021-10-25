@@ -6,8 +6,6 @@ import _ from 'lodash';
 import chatRoute from '../features/chat/route';
 import postRoute from '../features/post/route';
 
-// NOTE: DO NOT CHANGE the 'childRoutes' name and the declaration pattern.
-// This is used for Rekit cmds to register routes config for new features, and remove config when remove features, etc.
 const childRoutes = [
   homeRoute,
   commonRoute,
@@ -24,8 +22,6 @@ const routes = [{
   ].filter(r => r.component || (r.childRoutes && r.childRoutes.length > 0)),
 }];
 
-// Handle isIndex property of route config:
-//  Dupicate it and put it as the first route rule.
 function handleIndexRoute(route) {
   if (!route.childRoutes || !route.childRoutes.length) {
     return;
@@ -36,7 +32,7 @@ function handleIndexRoute(route) {
     const first = { ...indexRoute };
     first.path = '';
     first.exact = true;
-    first.autoIndexRoute = true; // mark it so that the simple nav won't show it.
+    first.autoIndexRoute = true; 
     route.childRoutes.unshift(first);
   }
   route.childRoutes.forEach(handleIndexRoute);
